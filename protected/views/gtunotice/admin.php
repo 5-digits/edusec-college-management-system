@@ -62,7 +62,11 @@ $dataProvider->getPagination()->setPageSize($pageSize);
 		),
 //		'ID',
 		'Description',
-		'Link',
+		array(
+		   'name'=>'Link',
+		   'type'=>'raw',
+		   'value'=>'CHtml::link($data->Link,$data->Link)',
+		),
 //		'Created_By',
 		//'Created_date',
 		

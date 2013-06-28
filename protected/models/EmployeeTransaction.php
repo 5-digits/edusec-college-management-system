@@ -355,34 +355,4 @@ class EmployeeTransaction extends CActiveRecord
 		       return $name->state_name;
 		       
 	}
-	public function beforeDelete()
-	{
-		$id = $this->employee_transaction_id;
-		$emp_leave = EmployeeLeaveMaster::model()->findAll(array('condition'=>'empid='.$id));
-		$att_check = Attendence::model()->findAll(array('condition'=>'employee_id='.$id));
-		$emp_att = Employee_attendence::model()->findAll(array('condition'=>'employee_id='.$id));
-		$emp_leave_app = EmployeeLeaveApplication::model()->findAll(array('condition'=>'employee_leave_application_employee_code='.$id.' OR employee_leave_application_approved_by_code='.$id.' OR employee_leave_application_approved_by_code_2='.$id));
-		$emp_rep = EmployeeReportingTable::model()->findAll(array('condition'=>'emp_reporting_table_user_id='.$id.' OR emp_reporting_table_reporting_level_1='.$id.' OR emp_reporting_table_reporting_level_2='.$id));
-		$emp_sal = EmployeeSalaryStructure::model()->findAll(array('condition'=>'employee_id='.$id));
-		$ass_sub = AssignSubject::model()->findAll(array('condition'=>'subject_faculty_id='.$id));
-		$time_table = TimeTableDetail::model()->findAll(array('condition'=>'faculty_emp_id='.$id));
-		
-
-		if(!empty($emp_leave) || !empty($att_check) || !empty($emp_att) || !empty($emp_leave_app) || !empty($emp_rep) || !empty($emp_sal) || !empty($ass_sub)|| !empty($time_table))
-		{
-			Yii::app()->user->setFlash('error',"You can not delete this record because it is used in another table.");
-			return false;
-		}	
-        	else
-		{				
-			Yii::app()->user->setFlash('success',"Deleted Sucessfully");
-			return true;
-		}
-
-
-    	}
-	
-	
-	
-
 }

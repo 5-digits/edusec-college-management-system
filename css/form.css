@@ -578,3 +578,6 @@ div.form .errorMessage {
   width: 195px !important;
 }
 
+textarea{
+  resize: none;
+}

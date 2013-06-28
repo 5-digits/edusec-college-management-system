@@ -75,8 +75,8 @@ class AssignmentController extends RController
 
 		$model=new RightsUser('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['User']))
-			$model->attributes=$_GET['User'];
+		if(isset($_GET['RightsUser']))
+			$model->attributes=$_GET['RightsUser'];
 
 		$this->render('/user/admin',array(
 			'model'=>$model,

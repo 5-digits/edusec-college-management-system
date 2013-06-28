@@ -497,7 +497,6 @@ div.form.two
   line-height: 20px;
   margin-bottom: 0;
   padding: 4px 12px;
-  float:right;
 }
 
 .submit:hover, .submit:focus {
@@ -548,22 +547,13 @@ div.form.two
   float:left;
   width:70%;
 }
-div.form .errorMessage
-{
-       color: red;
-       font-size: 0.9em;
-       float:right;
-       margin-right:35px;
-       line-height:25px;
-    
-}
-.errorMessage1
-{
-       color: red;
-       font-size: 0.9em;
-       /*float:right;*/
-       margin-right:35px;
-       line-height:25px;
+
+div.form .errorMessage {
+  color: red;
+  float: left;
+  font-size: 0.9em;
+  line-height: 25px;
+  margin-left: 10px;
 }
 
 .info-form {
@@ -588,3 +578,4 @@ div.form .errorMessage
   width: 195px !important;
 }
 
+textarea{resize: none}

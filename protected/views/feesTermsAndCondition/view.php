@@ -27,7 +27,11 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		//'id',
-		'term',
+		array(
+		  'name'=>'term',
+		  'type'=>'raw',
+		),
+
 		//'created_by',
 		array('name'=>'created_by',
 			'value'=>User::model()->findByPk($model->created_by)->user_organization_email_id,

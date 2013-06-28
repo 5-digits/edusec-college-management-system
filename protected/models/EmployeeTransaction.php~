@@ -26,7 +26,7 @@
  */
 class EmployeeTransaction extends CActiveRecord
 {
-	public $month,$csvfile;
+	public $month,$csvfile,$check;
 	public $std_code,$landline,$fax_phone,$applointment,$gross_per_month,$appointment_type,$faculty_type,$payscale,$programme,$course,$salary_mode,$pf_number,$doctrate_degree,$pg_degree,$ug_degree,$area_specialization,$other_qualification,$research_exp,$total_exp,$teaching_exp,$bank_name,$bank_branch_name,$ifsc_code,$national_publication,$patent,$no_pg_prj_guided,$no_dr_prj_guided,$international_publication,$no_of_books_pub,$Physical_hd,$minority_indicator,$fy_teacher,$fy_common_teacher,$fy_common_subject,$expert_mem_aicte,$basic_pay_rs,$aicte_grant_apply,$da,$hra_rs,$other_allowance_rs,$res_phone,$phd,$master_degree,$bachelor_degree,$diploma,$other,$salary_type,$level;
 	
 

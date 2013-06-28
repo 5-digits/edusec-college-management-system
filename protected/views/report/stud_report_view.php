@@ -42,7 +42,7 @@ echo CHtml::link($excelimage,Yii::app()->createUrl('report/SelectedList',array('
 if($stud_data)
 {
 ?>	
-<div style= "max-height:700px;width:100%; overflow-x:scroll; overflow-y:scroll; ">	
+<div style= "max-height:700px;width:auto; float:left; overflow-x:scroll; overflow-y:scroll; ">	
 <?php	$student_info=new StudentInfo;
 
 	$quota=new Quota;

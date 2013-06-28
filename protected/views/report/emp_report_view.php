@@ -5,12 +5,10 @@ $this->breadcrumbs=array('Report',
 	
 );?>
 <?php
-echo "&nbsp;";
-//echo CHtml::link('GO BACK',Yii::app()->createUrl('report/EmployeeInfoReport'),array());
-$gobackimage = CHtml::image('../images/Goback.png', 'No Image', array('height'=>'40','width'=>40));
 
-echo CHtml::link($gobackimage,Yii::app()->createUrl('report/EmployeeInfoReport'),array('title'=>'Go Back'));  
+echo CHtml::link("GO BACK",Yii::app()->createUrl('report/EmployeeInfoReport'),array('title'=>'Go Back'));  
 echo "&nbsp;";
+
 $_SESSION['query']=$query;
 $_SESSION['selected_list']=$selected_emp_list;
 
@@ -29,7 +27,7 @@ echo CHtml::link($excelimage,Yii::app()->createUrl('report/SelectedEmployeeList'
 if($emp_data)
 {
 ?>
-<div style= "max-height:700px;width:100%; overflow-x:scroll; overflow-y:scroll; ">
+<div style= "max-height:700px;width:auto; float: left; overflow-x:scroll; overflow-y:scroll; ">
 <?php	
 //	print_r($selected_list);
 	//echo CHtml::label('student first name','student_first_name');

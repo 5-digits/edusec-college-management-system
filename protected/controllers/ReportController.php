@@ -179,7 +179,7 @@ class ReportController extends RController
 					->from('student_transaction stud')
 					->join('student_info stud_info', 'stud_info.student_id = stud.student_transaction_student_id')
 					->leftJoin('student_address add', 'add.student_address_id = stud.student_transaction_student_address_id')
-					->where($query.' and stud.student_transaction_organization_id='.Yii::app()->user->getState('org_id'))
+					->where($query.' stud.student_transaction_organization_id='.Yii::app()->user->getState('org_id'))
 					->queryAll();
 		Yii::import('application.extensions.tcpdf.*');
 		require_once('tcpdf/tcpdf.php');
@@ -225,7 +225,7 @@ class ReportController extends RController
 					->join('student_info stud_info', 'stud_info.student_id = stud.student_transaction_student_id')
 					->leftJoin('student_address add', 'add.student_address_id = stud.student_transaction_student_address_id')
 
-					->where($query.' and stud.student_transaction_organization_id='.Yii::app()->user->getState('org_id'))
+					->where($query.' stud.student_transaction_organization_id='.Yii::app()->user->getState('org_id'))
 					->queryAll();
 		  
 		  Yii::app()->request->sendFile(date('YmdHis').'.xlsx',
@@ -504,7 +504,7 @@ class ReportController extends RController
 					->join('employee_info emp_info', 'emp_info.employee_id = emp.employee_transaction_employee_id')
 					->leftJoin('employee_address add', 'add.employee_address_id = emp.employee_transaction_emp_address_id')
 
-					->where($query.' and emp.employee_transaction_organization_id='.Yii::app()->user->getState('org_id'))
+					->where($query.' emp.employee_transaction_organization_id='.Yii::app()->user->getState('org_id'))
 					->queryAll();
 		Yii::import('application.extensions.tcpdf.*');
 		require_once('tcpdf/tcpdf.php');
@@ -550,7 +550,7 @@ class ReportController extends RController
 					->join('employee_info emp_info', 'emp_info.employee_id = emp.employee_transaction_employee_id')
 					->leftJoin('employee_address add', 'add.employee_address_id = emp.employee_transaction_emp_address_id')
 
-					->where($query.' and emp.employee_transaction_organization_id='.Yii::app()->user->getState('org_id'))
+					->where($query.' emp.employee_transaction_organization_id='.Yii::app()->user->getState('org_id'))
 					->queryAll();
 		 Yii::app()->request->sendFile(date('YmdHis').'.xlsx',
 			    $this->renderPartial('emp_report_view_excel', array(
