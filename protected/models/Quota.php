@@ -91,9 +91,6 @@ class Quota extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->condition = 'quota_organization_id = :quota_org_id';
-	        $criteria->params = array(':quota_org_id' => Yii::app()->user->getState('org_id'));
-
 		$criteria->compare('quota_id',$this->quota_id);
 		$criteria->compare('quota_name',$this->quota_name,true);
 		$criteria->compare('quota_organization_id',$this->quota_organization_id);

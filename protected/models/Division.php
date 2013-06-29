@@ -104,7 +104,7 @@ array('division_name','CRegularExpressionValidator','pattern'=>'/^[a-zA-Z1-9]+([
 		//$criteria->condition = 'division_organization_id = :division_org_id';
 	       // $criteria->params = array(':division_org_id' => Yii::app()->user->getState('org_id'));
 
-		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1 and academic_term_organization_id='.Yii::app()->user->getState('org_id'));
+		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1');
 			
 			$data = array();
 			foreach($acdm_terms as $list)

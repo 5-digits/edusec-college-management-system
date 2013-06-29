@@ -97,8 +97,6 @@ class AcademicTerm extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->condition = 'academic_term_organization_id = :academic_term_org_id';
-	        $criteria->params = array(':academic_term_org_id' => Yii::app()->user->getState('org_id'));
 		$criteria->with = array('academicTermPeriod'); 
 		$criteria->compare('academicTermPeriod.academic_term_period',$this->academic_term_period,true);  
 		$criteria->compare('academic_term_id',$this->academic_term_id);

@@ -171,32 +171,19 @@ class StudentTransaction extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1 and academic_term_organization_id='.Yii::app()->user->getState('org_id'));
-		//print_r($acdm_terms);exit;
+		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1');
 		$data = array();
 		foreach($acdm_terms as $list)
 		{
 			$data[] = $list['academic_term_id'];
 		}
-		//$a = array('3', '13', '24', '53', '69');
-		//print_r($data);exit;
 		$criteria=new CDbCriteria;
 
 		$criteria->with = array('Rel_Stud_Info','Rel_Status', 'Rel_Division','Rel_language','Rel_user');
 
-		//$criteria->condition = 'student_transaction_organization_id = :student_transaction_org_id';
-
-	      //  $criteria->params = array(':student_transaction_org_id' => Yii::app()->user->getState('org_id'));
-
-		
 
 		$criteria->addInCondition('student_academic_term_name_id', $data, 'OR');
 		$criteria->addNotInCondition('student_transaction_detain_student_flag', array('1','2'));
-		//$criteria->condition ="student_transaction_organization_id = :student_transaction_org_id && student_transaction_detain_student_flag <> :student_transaction_detain_student_flag";
-		//$criteria->params = array (
-		//':student_transaction_org_id' => Yii::app()->user->getState('org_id'),
-		//':student_transaction_detain_student_flag'=>3,	
-		//);
 
 		$criteria->compare('student_transaction_id',$this->student_transaction_id);
 		$criteria->compare('student_transaction_detain_student_flag',$this->student_transaction_detain_student_flag);
@@ -246,85 +233,6 @@ class StudentTransaction extends CActiveRecord
 		$_SESSION['Student_records']=$stud_data;
 		return $stud_data;
 	} 
-	public function smssearch()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1 and academic_term_organization_id='.Yii::app()->user->getState('org_id'));
-		//print_r($acdm_terms);exit;
-		$data = array();
-		foreach($acdm_terms as $list)
-		{
-			$data[] = $list['academic_term_id'];
-		}
-		//$a = array('3', '13', '24', '53', '69');
-		//print_r($data);exit;
-		$criteria=new CDbCriteria;
-
-		$criteria->with = array('Rel_Stud_Info','Rel_Status', 'Rel_Division','Rel_language','Rel_user');
-
-		//$criteria->condition = 'student_transaction_organization_id = :student_transaction_org_id';
-
-	      //  $criteria->params = array(':student_transaction_org_id' => Yii::app()->user->getState('org_id'));
-
-		
-
-		$criteria->addInCondition('student_academic_term_name_id', $data, 'OR');
-		$criteria->addNotInCondition('student_transaction_detain_student_flag', array('1','2'));
-		//$criteria->condition ="student_transaction_organization_id = :student_transaction_org_id && student_transaction_detain_student_flag <> :student_transaction_detain_student_flag";
-		//$criteria->params = array (
-		//':student_transaction_org_id' => Yii::app()->user->getState('org_id'),
-		//':student_transaction_detain_student_flag'=>3,	
-		//);
-
-		$criteria->compare('student_transaction_id',$this->student_transaction_id);
-		$criteria->compare('student_transaction_detain_student_flag',$this->student_transaction_detain_student_flag);
-		$criteria->compare('student_transaction_user_id',$this->student_transaction_user_id);
-		$criteria->compare('student_transaction_student_id',$this->student_transaction_student_id);
-		$criteria->compare('student_transaction_branch_id',$this->student_transaction_branch_id,true);
-		$criteria->compare('student_transaction_category_id',$this->student_transaction_category_id);
-		$criteria->compare('student_transaction_organization_id',$this->student_transaction_organization_id);
-		$criteria->compare('student_transaction_student_address_id',$this->student_transaction_student_address_id);
-		$criteria->compare('student_transaction_nationality_id',$this->student_transaction_nationality_id);
-		$criteria->compare('student_transaction_quota_id',$this->student_transaction_quota_id);
-		$criteria->compare('student_transaction_religion_id',$this->student_transaction_religion_id);
-		$criteria->compare('student_transaction_shift_id',$this->student_transaction_shift_id);
-		$criteria->compare('student_transaction_languages_known_id',$this->student_transaction_languages_known_id);
-		$criteria->compare('student_transaction_student_photos_id',$this->student_transaction_student_photos_id);
-		$criteria->compare('student_transaction_division_id',$this->student_transaction_division_id);
-		$criteria->compare('student_transaction_batch_id',$this->student_transaction_batch_id);
-		$criteria->compare('student_academic_term_period_tran_id',$this->student_academic_term_period_tran_id);
-
-		$criteria->compare('student_academic_term_name_id',$this->student_academic_term_name_id);
-
-		$criteria->compare('Rel_user.user_organization_email_id',$this->user_organization_email_id,true);
-		//$criteria->compare('Rel_Branch.branch_name',$this->branch_name,true);
-		$criteria->compare('Rel_Stud_Info.student_first_name',$this->student_first_name,true);
-		$criteria->compare('Rel_Stud_Info.student_living_status',$this->student_living_status,true);
-		$criteria->compare('Rel_Stud_Info.student_enroll_no',$this->student_enroll_no,true);
-		$criteria->compare('Rel_Stud_Info.student_roll_no',$this->student_roll_no,true);
-		$criteria->compare('Rel_Stud_Info.student_middle_name',$this->student_middle_name,true);
-		$criteria->compare('Rel_Stud_Info.student_last_name',$this->student_last_name,true);
-		$criteria->compare('Rel_Stud_Info.student_dtod_regular_status',$this->student_dtod_regular_status,true);
-		
-		$criteria->compare('Rel_Division.division_name',$this->division_name,true);
-		//$criteria->compare('Rel_Quota.quota_name',$this->quota_name,true);
-		//$criteria->compare('Rel_student_academic_terms_period_name.academic_term_period',$this->academic_term_period,true);
-		//$criteria->compare('Rel_student_academic_terms_name.academic_term_name',$this->academic_term_name,true);
-		$criteria->compare('Rel_Status.status_name',$this->status_name,true);
-		$criteria->compare('Rel_Stud_Info.student_mobile_no',$this->student_mobile_no,true);
-		$criteria->compare('Rel_Stud_Info.student_email_id_1',$this->student_email_id_1,true);
-
-		$stud_data = new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-			'sort'=>array(
-			'defaultOrder'=>'Rel_Stud_Info.student_first_name ASC',
-				),
-			));
-		
-		return $stud_data;
-	} 
 
 	
 	public function leftStudentSearch()
@@ -337,10 +245,9 @@ class StudentTransaction extends CActiveRecord
 		$criteria->with = array('Rel_Branch', 'Rel_Status' ,'Rel_Stud_Info', 'Rel_Division', 'Rel_Quota', 'Rel_student_academic_terms_period_name', 'Rel_student_academic_terms_name','Rel_language','Rel_user');
 
 
-		$criteria->condition ="student_transaction_organization_id = :student_transaction_org_id && (student_transaction_detain_student_flag = :student_transaction_detain_student_flag   || student_transaction_detain_student_flag = :rejoin_student)";
+		$criteria->condition ="student_transaction_detain_student_flag = :student_transaction_detain_student_flag   || student_transaction_detain_student_flag = :rejoin_student";
 
 		$criteria->params = array (
-		':student_transaction_org_id' => Yii::app()->user->getState('org_id'),
 		':student_transaction_detain_student_flag'=>5,
 		':rejoin_student'=>6,
 		
@@ -436,151 +343,6 @@ class StudentTransaction extends CActiveRecord
 
 
     	}
-	public function newsearch($branch_id,$cat_id,$acdm_period,$sem)
-	{
-		
-		$criteria=new CDbCriteria;
-		$criteria->compare('student_transaction_id',$this->student_transaction_id);
-		$criteria->compare('student_first_name',$this->student_first_name,true);
-		$criteria->select = 'student_transaction_id,student_roll_no,student_enroll_no,student_first_name,student_docs.title,student_docs_submit_date,student_docs_desc,student_docs_path,doc_category_id';
-		$criteria->alias = 'st';
-		$criteria->join='INNER JOIN student_docs_trans  ON student_docs_trans.student_docs_trans_user_id =st.student_transaction_id INNER JOIN student_info ON student_info.student_id =st.student_transaction_student_id INNER JOIN student_docs ON student_docs.student_docs_id = student_docs_trans.student_docs_trans_stud_docs_id';
 
 
-
-		$criteria->condition ="st.student_transaction_branch_id =".$branch_id." AND st.student_academic_term_period_tran_id=".$acdm_period." AND st.student_academic_term_name_id=".$sem." AND student_docs.doc_category_id=".$cat_id;
-
-		$stu_data =  new CActiveDataProvider(get_class($this), array(
-			'criteria'=>$criteria,
-			'sort'=>array(
-				    'defaultOrder'=>'student_transaction_id DESC',
-				),
-		));
-
-		return $stu_data;
-	}
-	public function hostelsearch()
-	{
-		$criteria=new CDbCriteria;
-
-		$criteria->with = array('Rel_Branch', 'Rel_Status' ,'Rel_Stud_Info', 'Rel_Division', 'Rel_Quota', 'Rel_student_academic_terms_period_name', 'Rel_student_academic_terms_name','Rel_language','Rel_user');		
-
-		$criteria->condition ="student_transaction_organization_id = :student_transaction_org_id && student_transaction_detain_student_flag <> :student_transaction_detain_student_flag && Rel_Stud_Info.student_living_status = :student_living_status";
-		$criteria->params = array (
-		':student_transaction_org_id' => Yii::app()->user->getState('org_id'),
-		':student_transaction_detain_student_flag'=>1,	
-		':student_living_status'=>'HOME',
-		);
-
-		$criteria->compare('student_transaction_id',$this->student_transaction_id);
-		$criteria->compare('student_transaction_detain_student_flag',$this->student_transaction_detain_student_flag);
-		$criteria->compare('student_transaction_user_id',$this->student_transaction_user_id);
-		$criteria->compare('student_transaction_student_id',$this->student_transaction_student_id);
-		$criteria->compare('student_transaction_branch_id',$this->student_transaction_branch_id);
-		$criteria->compare('student_transaction_category_id',$this->student_transaction_category_id);
-		$criteria->compare('student_transaction_organization_id',$this->student_transaction_organization_id);
-		$criteria->compare('student_transaction_student_address_id',$this->student_transaction_student_address_id);
-		$criteria->compare('student_transaction_nationality_id',$this->student_transaction_nationality_id);
-		$criteria->compare('student_transaction_quota_id',$this->student_transaction_quota_id);
-		$criteria->compare('student_transaction_religion_id',$this->student_transaction_religion_id);
-		$criteria->compare('student_transaction_shift_id',$this->student_transaction_shift_id);
-		$criteria->compare('student_transaction_languages_known_id',$this->student_transaction_languages_known_id);
-		$criteria->compare('student_transaction_student_photos_id',$this->student_transaction_student_photos_id);
-		$criteria->compare('student_transaction_division_id',$this->student_transaction_division_id);
-		$criteria->compare('student_transaction_batch_id',$this->student_transaction_batch_id);
-		$criteria->compare('student_academic_term_period_tran_id',$this->student_academic_term_period_tran_id);
-
-		$criteria->compare('student_academic_term_name_id',$this->student_academic_term_name_id);
-
-		$criteria->compare('Rel_user.user_organization_email_id',$this->user_organization_email_id,true);
-		$criteria->compare('Rel_Branch.branch_name',$this->branch_name,true);
-		$criteria->compare('Rel_Stud_Info.student_first_name',$this->student_first_name,true);
-		$criteria->compare('Rel_Stud_Info.student_living_status',$this->student_living_status,true);
-		$criteria->compare('Rel_Stud_Info.student_enroll_no',$this->student_enroll_no,true);
-		$criteria->compare('Rel_Stud_Info.student_roll_no',$this->student_roll_no,true);
-		$criteria->compare('Rel_Stud_Info.student_middle_name',$this->student_middle_name,true);
-		$criteria->compare('Rel_Stud_Info.student_last_name',$this->student_last_name,true);
-		$criteria->compare('Rel_Stud_Info.student_dtod_regular_status',$this->student_dtod_regular_status,true);
-		
-		$criteria->compare('Rel_Division.division_name',$this->division_name,true);
-		$criteria->compare('Rel_Quota.quota_name',$this->quota_name,true);
-		$criteria->compare('Rel_student_academic_terms_period_name.academic_term_period',$this->academic_term_period,true);
-		$criteria->compare('Rel_student_academic_terms_name.academic_term_name',$this->academic_term_name,true);
-		$criteria->compare('Rel_Status.status_name',$this->status_name,true);
-
-		$stud_data = new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-			'sort'=>array(
-			'defaultOrder'=>'student_transaction_id DESC',
-				),
-		));
-		$_SESSION['Student_records']=$stud_data;
-		return $stud_data;
-	} 
-	public function transportsearch()
-    {
-        $criteria=new CDbCriteria;
-
-        $criteria->with = array('Rel_Branch', 'Rel_Status' ,'Rel_Stud_Info', 'Rel_Division', 'Rel_Quota', 'Rel_student_academic_terms_period_name', 'Rel_student_academic_terms_name','Rel_language','Rel_user');       
-
-        $transportregisterstudent = TransportStudentRegistration::model()->findAll('organization_id='.Yii::app()->user->getState('org_id'));
-
-        $data = array();
-        foreach($transportregisterstudent as $list)
-        {
-            $data[] = $list['transport_student_transaction_id'];
-        }
-       
-        $criteria->condition ="student_transaction_organization_id = :student_transaction_org_id && student_transaction_detain_student_flag <> :student_transaction_detain_student_flag";
-        $criteria->params = array (
-        ':student_transaction_org_id' => Yii::app()->user->getState('org_id'),
-        ':student_transaction_detain_student_flag'=>1,   
-        );
-   
-        $criteria->addNotInCondition('student_transaction_id',$data);       
-        $criteria->compare('student_transaction_id',$this->student_transaction_id);
-        $criteria->compare('student_transaction_detain_student_flag',$this->student_transaction_detain_student_flag);
-        $criteria->compare('student_transaction_user_id',$this->student_transaction_user_id);
-        $criteria->compare('student_transaction_student_id',$this->student_transaction_student_id);
-        $criteria->compare('student_transaction_branch_id',$this->student_transaction_branch_id);
-        $criteria->compare('student_transaction_category_id',$this->student_transaction_category_id);
-        $criteria->compare('student_transaction_organization_id',$this->student_transaction_organization_id);
-        $criteria->compare('student_transaction_student_address_id',$this->student_transaction_student_address_id);
-        $criteria->compare('student_transaction_nationality_id',$this->student_transaction_nationality_id);
-        $criteria->compare('student_transaction_quota_id',$this->student_transaction_quota_id);
-        $criteria->compare('student_transaction_religion_id',$this->student_transaction_religion_id);
-        $criteria->compare('student_transaction_shift_id',$this->student_transaction_shift_id);
-        $criteria->compare('student_transaction_languages_known_id',$this->student_transaction_languages_known_id);
-        $criteria->compare('student_transaction_student_photos_id',$this->student_transaction_student_photos_id);
-        $criteria->compare('student_transaction_division_id',$this->student_transaction_division_id);
-        $criteria->compare('student_transaction_batch_id',$this->student_transaction_batch_id);
-        $criteria->compare('student_academic_term_period_tran_id',$this->student_academic_term_period_tran_id);
-
-        $criteria->compare('student_academic_term_name_id',$this->student_academic_term_name_id);
-
-        $criteria->compare('Rel_user.user_organization_email_id',$this->user_organization_email_id,true);
-        $criteria->compare('Rel_Branch.branch_name',$this->branch_name,true);
-        $criteria->compare('Rel_Stud_Info.student_first_name',$this->student_first_name,true);
-        $criteria->compare('Rel_Stud_Info.student_living_status',$this->student_living_status,true);
-        $criteria->compare('Rel_Stud_Info.student_enroll_no',$this->student_enroll_no,true);
-        $criteria->compare('Rel_Stud_Info.student_roll_no',$this->student_roll_no,true);
-        $criteria->compare('Rel_Stud_Info.student_middle_name',$this->student_middle_name,true);
-        $criteria->compare('Rel_Stud_Info.student_last_name',$this->student_last_name,true);
-        $criteria->compare('Rel_Stud_Info.student_dtod_regular_status',$this->student_dtod_regular_status,true);
-       
-        $criteria->compare('Rel_Division.division_name',$this->division_name,true);
-        $criteria->compare('Rel_Quota.quota_name',$this->quota_name,true);
-        $criteria->compare('Rel_student_academic_terms_period_name.academic_term_period',$this->academic_term_period,true);
-        $criteria->compare('Rel_student_academic_terms_name.academic_term_name',$this->academic_term_name,true);
-        $criteria->compare('Rel_Status.status_name',$this->status_name,true);
-
-        $transportstud_data = new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
-            'sort'=>array(
-            'defaultOrder'=>'student_transaction_id DESC',
-                ),
-        ));
-        $_SESSION['transportStudent_records']=$transportstud_data;
-        return $transportstud_data;
-    }
 }

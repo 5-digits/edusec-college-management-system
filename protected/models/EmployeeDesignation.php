@@ -95,9 +95,6 @@ class EmployeeDesignation extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->condition = 'employee_designation_organization_id = :employee_designation_org_id';
-	        $criteria->params = array(':employee_designation_org_id' => Yii::app()->user->getState('org_id'));
-
 		$criteria->compare('employee_designation_id',$this->employee_designation_id);
 		$criteria->compare('employee_designation_name',$this->employee_designation_name,true);
 		$criteria->compare('employee_designation_organization_id',$this->employee_designation_organization_id);

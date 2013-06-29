@@ -1054,9 +1054,6 @@ class FeesPaymentTransactionController extends RController
 	
 	public function actionUpdate_payfeescheque($id)
 	{
-		
-		$pay_cheque=$this->loadModel($id);
-		
 		$fees_id = $_REQUEST['id'];
 		$student_id =  $_REQUEST['student_id'];
 

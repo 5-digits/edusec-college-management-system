@@ -148,7 +148,7 @@ class Attendence extends CActiveRecord
 					':em_id' =>Yii::app()->user->getState('emp_id'),
 				);*/
 
-			$acdm_terms = AcademicTerm::model()->findAll('current_sem=1 and academic_term_organization_id='.Yii::app()->user->getState('org_id'));
+			$acdm_terms = AcademicTerm::model()->findAll('current_sem=1');
 			$emp[0]=Yii::app()->user->getState('emp_id');
 			$data = array();
 			foreach($acdm_terms as $list)
@@ -163,7 +163,7 @@ class Attendence extends CActiveRecord
 		}
 		else
 		{
-			$acdm_terms = AcademicTerm::model()->findAll('current_sem=1 and academic_term_organization_id='.Yii::app()->user->getState('org_id'));
+			$acdm_terms = AcademicTerm::model()->findAll('current_sem=1');
 		
 			$data = array();
 			foreach($acdm_terms as $list)

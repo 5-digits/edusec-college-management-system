@@ -93,10 +93,6 @@ array('department_name','CRegularExpressionValidator','pattern'=>'/^[a-zA-Z& ]+(
 
 		$criteria=new CDbCriteria;
 
-		$criteria->condition = 'department_organization_id = :department_org_id';
-	        $criteria->params = array(':department_org_id' => Yii::app()->user->getState('org_id'));
-
-
 		$criteria->compare('department_id',$this->department_id);
 		$criteria->compare('department_name',$this->department_name,true);
 		$criteria->compare('department_organization_id',$this->department_organization_id);

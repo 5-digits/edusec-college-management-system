@@ -97,7 +97,6 @@ class StudentTransactionController extends RController
 		$photo =new StudentPhotos;
 		$address=new StudentAddress;
 		$lang=new LanguagesKnown;
-		$ass_comp = new assignCompanyUserTable;
 		$auth_assign = new AuthAssignment;
 		$student_fees_master = new StudentFeesMaster;
 
@@ -171,12 +170,6 @@ class StudentTransactionController extends RController
 			$auth_assign->itemname = 'Student';
 			$auth_assign->userid = $user->user_id;
 			$auth_assign->save();
-
-			$ass_comp->assign_user_id = $user->user_id;
-			$ass_comp->assign_org_id = Yii::app()->user->getState('org_id');
-			$ass_comp->assign_created_by = Yii::app()->user->id;
-			$ass_comp->assign_creation_date = new CDbExpression('NOW()');
-			$ass_comp->save();
 
 			$this->redirect(array('update','id'=>$model->student_transaction_id));
 		} //end of isset if
@@ -465,9 +458,7 @@ class StudentTransactionController extends RController
 			$stud_photo = StudentPhotos::model()->findByPk($model->student_transaction_student_photos_id);
 			if($model->student_transaction_languages_known_id != null)		
 			$lang_known = LanguagesKnown::model()->findByPk($model->student_transaction_languages_known_id);
-			$ass_comp  = assignCompanyUserTable::model()->findByAttributes(array('assign_user_id'=>$model->student_transaction_user_id));
 			
-			//$assign_comp_model = assignCompanyUserTable::model()->findByPk($ass_comp->id);
 			
 			$dir1 = Yii::getPathOfAlias('webroot').'/stud_images/';
 			if($dh = opendir($dir1))
@@ -494,7 +485,6 @@ class StudentTransactionController extends RController
 			$address->delete();
 			if($model->student_transaction_languages_known_id != null)
 			$lang_known->delete();
-			$ass_comp->delete();
 			}
 			
 			//echo $model->student_transaction_student_id; exit;

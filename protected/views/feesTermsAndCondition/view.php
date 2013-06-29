@@ -1,7 +1,7 @@
 <?php
 $this->breadcrumbs=array(
 	'Terms And Conditions'=>array('admin'),
-	$model->term,
+	strip_tags($model->term),
 );
 
 $this->menu=array(
@@ -31,7 +31,6 @@ $this->menu=array(
 		  'name'=>'term',
 		  'type'=>'raw',
 		),
-
 		//'created_by',
 		array('name'=>'created_by',
 			'value'=>User::model()->findByPk($model->created_by)->user_organization_email_id,

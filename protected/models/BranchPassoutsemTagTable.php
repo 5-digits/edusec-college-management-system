@@ -95,10 +95,6 @@ class BranchPassoutsemTagTable extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->condition = 'organization_id = :organization_id';
-	        $criteria->params = array(':organization_id' => Yii::app()->user->getState('org_id'));
-
 		$criteria->compare('id',$this->id);
 		$criteria->compare('branch_tag_name',$this->branch_tag_name,true);
 		$criteria->compare('pass_out_sem',$this->pass_out_sem);

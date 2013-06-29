@@ -101,8 +101,6 @@ array('academic_term_period','CRegularExpressionValidator','pattern'=>'/^(([0-9]
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->condition = 'academic_terms_period_organization_id = :academic_terms_period_org_id';
-	        $criteria->params = array(':academic_terms_period_org_id' => Yii::app()->user->getState('org_id'));
 		$criteria->compare('academic_terms_period_id',$this->academic_terms_period_id);
 		$criteria->compare('academic_terms_period_name',$this->academic_terms_period_name,true);
 		$criteria->compare('academic_term_period',$this->academic_term_period);

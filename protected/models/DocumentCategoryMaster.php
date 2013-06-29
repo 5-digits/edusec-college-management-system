@@ -99,8 +99,6 @@ array('department,document_category','required','on'=>'documentsearch','message'
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->condition = 'docs_category_organization_id = :org_id';
-	        $criteria->params = array(':org_id' => Yii::app()->user->getState('org_id'));
 		$criteria->compare('doc_category_id',$this->doc_category_id);
 		$criteria->compare('doc_category_name',$this->doc_category_name,true);
 		$criteria->compare('created_by',$this->created_by);

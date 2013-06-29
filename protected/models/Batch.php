@@ -109,7 +109,7 @@ class Batch extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1 and academic_term_organization_id='.Yii::app()->user->getState('org_id'));
+		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1');
 			
 			$data = array();
 			foreach($acdm_terms as $list)

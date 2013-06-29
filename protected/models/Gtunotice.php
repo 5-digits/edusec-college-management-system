@@ -95,9 +95,7 @@ class Gtunotice extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->condition = 'gtunotice_organization_id = :gtunotice_org_id';
-	        $criteria->params = array(':gtunotice_org_id' => Yii::app()->user->getState('org_id'));
-
+		
 		$criteria->compare('ID',$this->ID);
 		$criteria->compare('Description',$this->Description,true);
 		$criteria->compare('Link',$this->Link,true);

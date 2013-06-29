@@ -98,7 +98,7 @@ class StudentFeesMaster extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1 and academic_term_organization_id='.Yii::app()->user->getState('org_id'));
+		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1');
 		//print_r($acdm_terms);exit;
 		$data = array();
 		foreach($acdm_terms as $list)
@@ -113,8 +113,6 @@ class StudentFeesMaster extends CActiveRecord
 
 		$criteria->addInCondition('fees_master.fees_academic_term_name_id',$data,'OR');
 
-		//$criteria->condition = 'fees_master.fees_academic_term_name_id in ('.$data.')';
-//	        $criteria->params = array(':academic_term_org_id' => Yii::app()->user->getState('org_id'));
 
 		$criteria->compare('student_fees_master_id',$this->student_fees_master_id);
 		$criteria->compare('student_fees_master_student_transaction_id',$this->student_fees_master_student_transaction_id);

@@ -89,8 +89,6 @@ class FeesDetailsMaster extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->condition = 't.organization_id= :org_id';
-	        $criteria->params = array(':org_id' => Yii::app()->user->getState('org_id'));
 		$criteria->with = array('Rel_org');
 		
 		$criteria->compare('fees_details_master',$this->fees_details_master);

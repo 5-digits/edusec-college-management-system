@@ -580,4 +580,5 @@ div.form .errorMessage {
 
 textarea{
   resize: none;
+  color:inherit;
 }

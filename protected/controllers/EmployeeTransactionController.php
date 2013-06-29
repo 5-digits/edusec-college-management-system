@@ -102,7 +102,6 @@ class EmployeeTransactionController extends RController
 		$photo =new EmployeePhotos;
 		$address=new EmployeeAddress;
 		$lang=new LanguagesKnown;
-		$ass_comp = new assignCompanyUserTable;
 		$auth_assign = new AuthAssignment;
 
 
@@ -162,12 +161,6 @@ class EmployeeTransactionController extends RController
 
 			// Assign company to user...
 
-			$ass_comp->assign_user_id = $user->user_id;
-			$ass_comp->assign_role_id = 3;
-			$ass_comp->assign_org_id = Yii::app()->user->getState('org_id');
-			$ass_comp->assign_created_by = Yii::app()->user->id;
-			$ass_comp->assign_creation_date = new CDbExpression('NOW()');
-			$ass_comp->save();
 
 				        $this->redirect(array('update','id'=>$model->employee_transaction_id));
 
@@ -484,9 +477,6 @@ class EmployeeTransactionController extends RController
 			$emp_photo = EmployeePhotos::model()->findByPk($model->employee_transaction_emp_photos_id);	
 			if($model->employee_transaction_languages_known_id != null)	
 			$lang_known = LanguagesKnown::model()->findByPk($model->employee_transaction_languages_known_id);
-			$ass_comp  = assignCompanyUserTable::model()->findByAttributes(array('assign_user_id'=>$model->employee_transaction_user_id));
-			
-			//$assign_comp_model = assignCompanyUserTable::model()->findByPk($ass_comp->id);
 			
 			$dir1 = Yii::getPathOfAlias('webroot').'/emp_images/';
 			if($dh = opendir($dir1))
@@ -513,7 +503,7 @@ class EmployeeTransactionController extends RController
 			$address->delete();
 			if($model->employee_transaction_languages_known_id != null)	
 			$lang_known->delete();
-			$ass_comp->delete();
+		
 			}
 			
 

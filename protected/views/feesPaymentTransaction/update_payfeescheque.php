@@ -12,8 +12,8 @@ $this->menu=array(
 	//array('label'=>'View FeesPaymentTransaction', 'url'=>array('view', 'id'=>$model->fees_payment_transaction_id)),
 	//array('label'=>'Manage FeesPaymentTransaction', 'url'=>array('admin')),
 );
-?>
 
+?>
 <h1>Update Cheque Details <?php //echo $model->fees_payment_transaction_id; ?></h1>
 
 <?php echo $this->renderPartial('paycheque_form', array('model'=>$model,'pay_cheque'=>$pay_cheque)); ?>

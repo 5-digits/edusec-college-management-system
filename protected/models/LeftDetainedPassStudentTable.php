@@ -112,12 +112,9 @@ class LeftDetainedPassStudentTable extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		
-		//$criteria->condition = 'oraganization_id= :oraganization_id';
-	       // $criteria->params = array(':oraganization_id' => Yii::app()->user->getState('org_id'));
 
-		$criteria->condition ="oraganization_id = :oraganization_id && status_id <> :status_id1 && status_id <> :status_id2";
+		$criteria->condition ="status_id <> :status_id1 && status_id <> :status_id2";
 		$criteria->params = array (
-		':oraganization_id' => Yii::app()->user->getState('org_id'),
 		':status_id1'=>3,	
 		':status_id2'=>5,	
 		);
@@ -163,12 +160,9 @@ class LeftDetainedPassStudentTable extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		
-		//$criteria->condition = 'oraganization_id= :oraganization_id';
-	       // $criteria->params = array(':oraganization_id' => Yii::app()->user->getState('org_id'));
-
-		$criteria->condition ="oraganization_id = :oraganization_id && status_id <> :status_id";
+	
+		$criteria->condition ="status_id <> :status_id";
 		$criteria->params = array (
-		':oraganization_id' => Yii::app()->user->getState('org_id'),
 		':status_id'=>3,	
 		);
 

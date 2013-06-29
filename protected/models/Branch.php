@@ -103,9 +103,6 @@ class Branch extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->condition = 'branch_organization_id = :branch_org_id';
-	        $criteria->params = array(':branch_org_id' => Yii::app()->user->getState('org_id'));
-
 		//$criteria->with = array('Rel_Branch_Tag');  /// Note: Define relation with related table....
 		//$criteria->compare('Rel_Branch_Tag.branch_tag_name',$this->branch_tag_name,true);  // Note: Compare related table field with relation....
 		$criteria->compare('branch_tag_id',$this->branch_tag_id,true);

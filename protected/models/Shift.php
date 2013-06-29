@@ -91,9 +91,6 @@ class Shift extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->condition = 'shift_organization_id = :shift_org_id';
-	        $criteria->params = array(':shift_org_id' => Yii::app()->user->getState('org_id'));
-
 		$criteria->compare('shift_id',$this->shift_id);
 		$criteria->compare('shift_type',$this->shift_type,true);
 		$criteria->compare('shift_organization_id',$this->shift_organization_id);

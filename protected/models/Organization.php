@@ -58,7 +58,7 @@ class Organization extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('organization_name, organization_created_by, organization_creation_date,city,state,country, address_line1,pin, phone, email, no_of_semester','required','message'=>''),
-			array('organization_created_by,pin,city,state,country,phone', 'numerical', 'integerOnly'=>true , 'message'=>''),
+			array('organization_created_by,pin,phone', 'numerical', 'integerOnly'=>true , 'message'=>''),
 			array('organization_name, organization_name,address_line1,fax_no,address_line2', 'length', 'max'=>50, 'message'=>''),
 			array('fax_no', 'length', 'max'=>10, 'message'=>''),
 			//array('organization_name','required','message'=>'','on'=>'update'),

@@ -32,17 +32,10 @@ $this->menu=array(
 				$cash_total = $cash_total + FeesPaymentCash::model()->findByPk($list->fees_payment_cash_cheque_id)->fees_payment_cash_amount;
 			else
 			{
-				//$cheque_total = $cheque_total + FeesPaymentCheque::model()->findByPk($list->fees_payment_cash_cheque_id)->fees_payment_cheque_amount;
-			
-				//$info_model=StudentInfo::model()->findByAttributes(array('student_enroll_no'=>$_POST['en_no']));
 				$amount = FeesPaymentCheque::model()->findByAttributes(array('fees_payment_cheque_status'=>0,'fees_payment_cheque_id'=>$list->fees_payment_cash_cheque_id));
-				
-				
 				$cheque_total = $cheque_total + $amount['fees_payment_cheque_amount'];
-				
-				
 			}
-			}
+		}
 			echo "<div class='total-amount'><h4>Total Paid Fees : <b>".$total = $cash_total + $cheque_total .'</b></h4></div>';
 
 			Yii::app()->user->setState('student_paid_fees',$total);
@@ -107,87 +100,6 @@ $this->menu=array(
 	),
 )); ?>
 
-<h3 class="past-fees-grid"> Fees Paid by Cheque/Draft Details </h3>
-
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'transport-fees-cheque-grid',
-	'dataProvider'=>$cheque_model->chequesearch(),
-//	'filter'=>$model,
-	'ajaxUpdate'=>false,
-	'enableSorting'=>false,
-	'columns'=>array(
-		array(
-		'header'=>'SI No',
-		'class'=>'IndexColumn',
-		),
-		//'fees_payment_transaction_id',
-		//'fees_payment_master_id',
-		//'fees_payment_cheque_date',
-		array('header'=>'Cheque/DD Number',
-			'value'=>'FeesPaymentCheque::model()->findByPk($data->fees_payment_cash_cheque_id)->fees_payment_cheque_number',
-		     ),
-
-		array('header'=>'Cheque/DD Date',
-			'value'=>'date_format(date_create(FeesPaymentCheque::model()->findByPk($data->fees_payment_cash_cheque_id)->fees_payment_cheque_date), "d-m-Y")',
-		     ),
-		array('header'=>'Bank Name',
-			'value'=>'BankMaster::model()->findByPk(FeesPaymentCheque::model()->findByPk($data->fees_payment_cash_cheque_id)->	fees_payment_cheque_bank)->bank_full_name',
-		     ),
-		array('header'=>'Branch Name',
-			'value'=>'FeesPaymentCheque::model()->findByPk($data->fees_payment_cash_cheque_id)->	fees_payment_cheque_branch',
-		     ),
-		
-
-		array('name'=>'fees_payment_method_name',
-		'value'=>'$data->Rel_pay_method->fees_payment_method_name',
-		     ),
-		
-		array('name'=>'Amount',
-			'value'=>'FeesPaymentCheque::model()->findByPk($data->fees_payment_cash_cheque_id)->fees_payment_cheque_amount',
-		     ),
-		
-		//'fees_payment_cash_cheque_id',
-		//'fees_receipt_id',
-		array('name'=>'Receipt No',
-			'value'=>'FeesReceipt::model()->findByPk($data->fees_receipt_id)->fees_receipt_number',
-		     ),
-		//'fees_payment',
-		/*
-		'fees_received_user_id',
-		'fees_full_part_payment_id',
-		'fees_student_id',*/
-
-		array(
-			'class'=>'MyCButtonColumn',
-			'template' => '{update}{delete}{print_rec}',
-			'buttons'=>array(
-			'delete' => array(
-                                'label'=>'Delete Fees', // text label of the button
-				'url'=>'Yii::app()->createUrl("feesPaymentTransaction/delete", array("id"=>$data->fees_payment_transaction_id,"stud_id"=>'.$_REQUEST['id'].'))',
-				//'options'=>array('confirm'=>'Are you sure want to delete this record?'),
-				//'click'=>'js: function(){
-				//}',
-
-				),
-                        'update' => array(
-                                'label'=>'Edit Fees', // text label of the button
-				'url'=>'Yii::app()->createUrl("feesPaymentTransaction/update_payfeescheque", array("id"=>$data->fees_payment_cash_cheque_id,"student_id"=>'.$_REQUEST['id'].'))',
-                        ),
-
-			'print_rec' => array(
-                                'label'=>'Print Receipt', // text label of the button
-				'url'=>'Yii::app()->createUrl("feesPaymentTransaction/print_cheque_receipt", array("id"=>$data->fees_payment_transaction_id))',
-                                'imageUrl'=> Yii::app()->baseUrl.'/images/rs.png',  // image URL of the button. If not set or false, a text link is used
-                               'options' => array('class'=>'fees-receipt', 'target'=>'_blank'), // HTML options for the button
-
-                        ),
-		   ),
-		),
-	),
-)); ?>
-
-<?php 
-	echo $this->renderPartial('all_fees'); ?>
 
 
 

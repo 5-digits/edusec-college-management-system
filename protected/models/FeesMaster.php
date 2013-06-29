@@ -118,7 +118,7 @@ class FeesMaster extends CActiveRecord
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
-		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1 and academic_term_organization_id='.Yii::app()->user->getState('org_id'));
+		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1');
 		
 		$data = array();
 		foreach($acdm_terms as $list)
@@ -159,7 +159,7 @@ class FeesMaster extends CActiveRecord
 		// should not be searched.
 		$criteria=new CDbCriteria;
 		$criteria->with = array('Rel_fees_branch');
-		$acdm_terms = AcademicTerm::model()->findAll('current_sem=0 and academic_term_organization_id='.Yii::app()->user->getState('org_id'));
+		$acdm_terms = AcademicTerm::model()->findAll('current_sem<>1');
 		
 		$data = array();
 		foreach($acdm_terms as $list)
@@ -167,9 +167,6 @@ class FeesMaster extends CActiveRecord
 			$data[] = $list['academic_term_id'];
 		}
 		$criteria->addInCondition('fees_academic_term_name_id', $data, 'OR');
-
-		//$criteria->condition = 'fees_organization_id = :org_id';
-	      //  $criteria->params = array(':org_id' => Yii::app()->user->getState('org_id'));
 
 		$criteria->compare('fees_master_id',$this->fees_master_id);
 		$criteria->compare('fees_master_name',$this->fees_master_name,true);
@@ -268,7 +265,7 @@ class FeesMaster extends CActiveRecord
 	    	private static function loadItems()
 	    	{
 			self::$_items=array();
-			$models=self::model()->findAll(array('condition'=>'fees_organization_id='.Yii::app()->user->getState('org_id')));
+			$models=self::model()->findAll();
 			foreach($models as $model)
 		    self::$_items[$model->fees_master_id]=$model->fees_master_name;
 	    	}

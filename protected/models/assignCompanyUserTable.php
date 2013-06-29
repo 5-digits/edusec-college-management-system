@@ -87,8 +87,6 @@ class assignCompanyUserTable extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->select = 'assign_user_id , assign_org_id';
-		$criteria->condition = 'assign_org_id = '.Yii::app()->user->getState('org_id');
 		$criteria->with = array('Rel_ass_user','Rel_ass_org');
 		$criteria->compare('Rel_ass_user.user_organization_email_id',$this->user_organization_email_id,true);
 		$criteria->compare('Rel_ass_org.organization_name',$this->organization_name,true);

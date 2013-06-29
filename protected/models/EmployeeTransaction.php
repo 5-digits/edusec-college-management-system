@@ -183,9 +183,6 @@ class EmployeeTransaction extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-
-		$criteria->condition = 'employee_transaction_organization_id = :orgid';
-	        $criteria->params = array(':orgid' => Yii::app()->user->getState('org_id'));  /// Note: Pass perameter to get recored related to perticular condition...
 		
 		$criteria->distinct = true;
 
@@ -238,98 +235,8 @@ class EmployeeTransaction extends CActiveRecord
 		return $emp_data;
 	}
 	
-	public function newsearch($department_id,$category_id)
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-                /*$criteria=new CDbCriteria(array(
-                        'select'=>'employee_transaction_id',
-                        'with'=>array('docs_trans','docs'),
-			'condition'=>'employee_transaction_department_id ='.$department_id.' AND docs.doc_category_id = '.$category_id,
-			'together'=>false,
-
-                        
-                ));*/
-
-		$criteria=new CDbCriteria;
-		$criteria->compare('employee_transaction_id',$this->employee_transaction_id);
-		$criteria->compare('employee_first_name',$this->employee_first_name,true);
-		$criteria->select = 'employee_transaction_id,employee_first_name,employee_attendance_card_id,employee_docs.title,employee_docs_submit_date,employee_docs_path,employee_docs_desc,doc_category_id';
-		$criteria->alias = 'et';
-		$criteria->join='INNER JOIN employee_docs_trans ON employee_docs_trans.employee_docs_trans_user_id =et.employee_transaction_id INNER JOIN employee_info ON employee_info.employee_id =et.employee_transaction_employee_id INNER JOIN employee_docs ON employee_docs.employee_docs_id = employee_docs_trans.employee_docs_trans_emp_docs_id';
-
-		$criteria->condition= 'et.employee_transaction_department_id ='.$department_id.' AND employee_docs.doc_category_id = '.$category_id;
-
-		$emp_data =  new CActiveDataProvider(get_class($this), array(
-			'criteria'=>$criteria,
-			'sort'=>array(
-				    'defaultOrder'=>'employee_transaction_id DESC',
-				),
-		));
-
-		return $emp_data;
-	}
-	public function smssearch()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->condition = 'employee_transaction_organization_id = :orgid';
-	        $criteria->params = array(':orgid' => Yii::app()->user->getState('org_id'));  /// Note: Pass perameter to get recored related to perticular condition...
-		
-		$criteria->distinct = true;
-
-		$criteria->with = array('Rel_Category'=>array(
-						'select'=>'category_name'
-					),'Rel_Branch' ,'Rel_Emp_Info','Rel_Quota', 'Rel_user1');
-		
-		$criteria->compare('employee_transaction_id',$this->employee_transaction_id);
-		$criteria->compare('employee_transaction_user_id',$this->employee_transaction_user_id);
-		$criteria->compare('employee_transaction_employee_id',$this->employee_transaction_employee_id);
-		$criteria->compare('employee_transaction_emp_address_id',$this->employee_transaction_emp_address_id);
-		$criteria->compare('employee_transaction_branch_id',$this->employee_transaction_branch_id);
-		$criteria->compare('employee_transaction_category_id',$this->employee_transaction_category_id);
-		//$criteria->compare('employee_transaction_quota_id',$this->employee_transaction_quota_id);
-		$criteria->compare('employee_transaction_religion_id',$this->employee_transaction_religion_id);
-		$criteria->compare('employee_transaction_shift_id',$this->employee_transaction_shift_id);
-		$criteria->compare('employee_transaction_designation_id',$this->employee_transaction_designation_id);
-		$criteria->compare('employee_transaction_nationality_id',$this->employee_transaction_nationality_id);
-		$criteria->compare('employee_transaction_department_id',$this->employee_transaction_department_id);
-		$criteria->compare('employee_transaction_organization_id',$this->employee_transaction_organization_id);
-		$criteria->compare('employee_transaction_languages_known_id',$this->employee_transaction_languages_known_id);
-		$criteria->compare('employee_transaction_emp_photos_id',$this->employee_transaction_emp_photos_id);
 
 
-		$criteria->compare('Rel_Category.category_name',$this->category_name,true);
-		$criteria->compare('Rel_Branch.branch_name',$this->branch_name,true);
-		$criteria->compare('Rel_Emp_Info.employee_first_name',$this->employee_first_name,true);
-		$criteria->compare('Rel_Emp_Info.employee_last_name',$this->employee_last_name,true);
-		$criteria->compare('Rel_user1.user_organization_email_id',$this->user_organization_email_id,true);
-		//$criteria->compare('Rel_Department.department_name',$this->department_name,true);
-
-		$criteria->compare('Rel_Emp_Info.employee_no',$this->employee_no,true);
-		$criteria->compare('Rel_Emp_Info.employee_attendance_card_id',$this->employee_attendance_card_id,true);
-
-		$criteria->compare('Rel_Quota.quota_name',$this->quota_name,true);
-		//$criteria->compare('Rel_Shift.shift_type',$this->shift_type,true);
-		$criteria->compare('Rel_Emp_Info.employee_type',$this->employee_type,true);
-		//$criteria->compare('Rel_Designation.employee_designation_name',$this->employee_designation_name,true);
-		$criteria->compare('Rel_Emp_Info.employee_private_mobile',$this->employee_private_mobile,true);
-		$criteria->compare('Rel_Emp_Info.employee_private_email',$this->employee_private_email,true);
-
-		$emp_data =  new CActiveDataProvider(get_class($this), array(
-			'criteria'=>$criteria,
-					
-			'sort'=>array(
-				 'defaultOrder'=>'Rel_Emp_Info.employee_first_name ASC',
-				),
-		));
-		$_SESSION['employee_records']=$emp_data;
-		return $emp_data;
-	}
 	public function findcity($id)
 	{
 		       // Warning: Please modify the following code to remove attributes that

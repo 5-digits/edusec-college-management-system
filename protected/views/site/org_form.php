@@ -49,52 +49,21 @@ $this->beginWidget('zii.widgets.jui.CJuiDialog', array(
 <div class="row">
 	<div class="row-left">
 		<?php echo $form->labelEx($model,'country'); ?>
-		<?php echo $form->dropDownList($model,'country', Country::items(), 			array(
-			'prompt' => '-----------Select-----------',
-			'ajax' => array(
-			'type'=>'POST', 
-			'url'=>CController::createUrl('site/UpdateStates'), 
-			'update'=>'#Organization_state', //selector to update
-			'tabindex'=>4,
-			)));?><span class="status">&nbsp;</span>
+		<?php echo $form->textField($model,'country',array('size'=>15,'maxlength'=>50),array('tabindex'=>3)); ?><span class="status">&nbsp;</span>
 		<?php echo $form->error($model,'country'); ?>
 	</div>
 
 	
 	<div class="row-right">
 		<?php echo $form->labelEx($model,'state'); ?>
-		<?php 
-			if(isset($model->state))
-			echo $form->dropDownList($model,'state', CHtml::listData(State::model()->findAll(array('condition'=>'country_id='.$model->country)), 'state_id', 'state_name'),
-			array(
-			'prompt' => '-----------Select-----------',
-			'ajax' => array(
-			'type'=>'POST', 
-			'url'=>CController::createUrl('site/UpdateCities'), 
-			'update'=>'#Organization_city', //selector to update
-			'tabindex'=>5,
-			)));
-			else
-			echo $form->dropDownList($model,'state',array(),
-			array(
-			'prompt' => '-----------Select-----------',
-			'ajax' => array(
-			'type'=>'POST', 
-			'url'=>CController::createUrl('site/UpdateCities'), 
-			'update'=>'#Organization_city', //selector to update
-			'tabindex'=>5,
-			)));?><span class="status">&nbsp;</span>
+		<?php echo $form->textField($model,'state',array('size'=>15,'maxlength'=>50),array('tabindex'=>3)); ?><span class="status">&nbsp;</span>
 		<?php echo $form->error($model,'state'); ?>
 	</div>
 </div>
 <div class="row">
 	<div class="row-left">
 		<?php echo $form->labelEx($model,'city'); ?>
-		<?php
-			 if(isset($model->city))
-			 echo $form->dropDownList($model,'city', CHtml::listData(City::model()->findAll(array('condition'=>'state_id='.$model->state)), 'city_id', 'city_name'));
-			 else			
-		echo $form->dropDownList($model,'city', array('empty' => '-----------Select---------'));?><span class="status">&nbsp;</span>
+		<?php echo $form->textField($model,'city',array('size'=>15,'maxlength'=>50),array('tabindex'=>3)); ?><span class="status">&nbsp;</span>
 		<?php echo $form->error($model,'city'); ?>
 	</div>
 
