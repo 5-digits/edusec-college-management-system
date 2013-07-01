@@ -144,7 +144,7 @@
 				?>
 
 				<?php echo '<div class="right-menu-link"><ul id ="nav"><li class="welcome">Welcome, '. $login_user_name.'</li>';
-	echo '<li>'.CHtml::link('Edusec Support','http://124.125.156.120:8081', array('target'=>'_blank'))."</li>";
+	echo '<li>'.CHtml::link('Edusec Support','http://rudrasoftech.com/forum', array('target'=>'_blank'))."</li>";
 				if(isset($studsession))
 				{
 					echo '<li>'.CHtml::link("My Account",array('/studentTransaction/update/'.$studsession)).'</li>';

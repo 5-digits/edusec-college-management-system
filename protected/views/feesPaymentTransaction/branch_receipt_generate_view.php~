@@ -16,11 +16,13 @@ include('NumbWordter.php'); ?>
 <body>
 
 <?php
+//print $acdm_period."-".$acdm_name; 
+$org_id=Yii::app()->user->getState('org_id');
 
 $fees_student = Yii::app()->db->createCommand()
 	    ->select('*')
 	    ->from('fees_payment_transaction')
-	    ->where($query)
+	    ->where('fees_payment_transaction_organization_id='.$org_id.$query)
 	    ->queryAll();
 
 if($fees_student)

@@ -33,12 +33,16 @@ class SiteController extends Controller
 
 	public function filterBlockuser($filterChain)
 	{
+		$reg_details = Registration::model()->count(); 
+		if($reg_details == 0) {
+			$this->redirect(array('registration/create'));
+		}
 		$count = User::model()->count();
 		$org_count =  Organization::model()->count();
-		if($count == 0 && $org_count ==  0) {
+		if($org_count ==  0) {
 			$this->redirect(array('site/welcome'));
 		}
-		if($org_count !=  0 &&  $count == 0) {
+		/*if($org_count !=  0 &&  $count == 0) {
 			$org_data = Yii::app()->db->createCommand()
                                 ->select('organization_id')
                                 ->from('organization')
@@ -46,7 +50,7 @@ class SiteController extends Controller
 			//print_r($org_data); exit;
 
 			$this->redirect(array('createUser','id'=>$org_data['organization_id']));
-		}
+		}*/
 
 			$filterChain->run();
 	}
@@ -166,8 +170,7 @@ class SiteController extends Controller
 			
 			
 			if($model->save(false))
-				$this->redirect(array('createUser','id'=>$model->organization_id));
-				//$this->redirect(array('admin'));
+				$this->redirect(array('site/redirectLogin'));
 		}
 
 		$this->render('create_org',array(

@@ -1,0 +1,50 @@
+<div class="form">
+
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'registration-form',
+	'enableAjaxValidation'=>false,
+)); ?>
+
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
+
+	<?php //echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'first_name'); ?>
+		<?php echo $form->textField($model,'first_name',array('size'=>50,'maxlength'=>50)); ?><span class="status">&nbsp;</span>
+		<?php echo $form->error($model,'first_name'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'last_name'); ?>
+		<?php echo $form->textField($model,'last_name',array('size'=>50,'maxlength'=>50)); ?><span class="status">&nbsp;</span>
+		<?php echo $form->error($model,'last_name'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'email'); ?>
+		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>100)); ?>
+<span class="status">&nbsp;</span>
+		<?php echo $form->error($model,'email'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'country_code'); ?>
+		<?php echo $form->textField($model,'country_code'); ?><span class="status">&nbsp;</span>
+		<?php echo $form->error($model,'country_code'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->labelEx($model,'mobile'); ?>
+		<?php echo $form->textField($model,'mobile'); ?>
+<span class="status">&nbsp;</span>
+		<?php echo $form->error($model,'mobile'); ?>
+	</div>
+
+	<div class="row buttons">
+		<?php echo CHtml::submitButton('Register'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+
+</div><!-- form -->
