@@ -1,6 +1,6 @@
 <?php
 
-class DivisionController extends RController
+class AcademicTermPeriodController extends RController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -17,8 +17,14 @@ class DivisionController extends RController
 			'rights', // perform access control for CRUD operations
 		);
 	}
-	
-
+	 public function behaviors()
+	    {
+		return array(
+		    'eexcelview'=>array(
+		        'class'=>'ext.eexcelview.EExcelBehavior',
+		    ),
+		);
+	    }
 
 	/**
 	 * Specifies the access control rules.
@@ -46,6 +52,7 @@ class DivisionController extends RController
 		);
 	}
 
+	
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -63,30 +70,21 @@ class DivisionController extends RController
 	 */
 	public function actionCreate()
 	{
-		$model=new Division;
-
+		$model=new AcademicTermPeriod;
+	
 		// Uncomment the following line if AJAX validation is needed
 		 $this->performAjaxValidation($model);
 
-		if(isset($_POST['Division']))
+		if(isset($_POST['AcademicTermPeriod']))
 		{
-			$model->attributes=$_POST['Division'];
-		
-			$divname = $model->division_name;
-			$branch_code = Branch::model()->findByPk($model->branch_id)->branch_alias;
-			$acdm_name = AcademicTerm::model()->findByPk($model->academic_name_id)->academic_term_name;
-			//echo $branch_code;
-			//echo $acdm_name;
-			//echo $divname;
-			$concatdivname = $divname.'-'.$branch_code.'-'.$acdm_name;
-			//exit;
-			$model->division_code = $concatdivname;
-			$model->division_organization_id = Yii::app()->user->getState('org_id');
-			$model->division_created_by=Yii::app()->user->id;
-			$model->division_creation_date=new CDbExpression('NOW()');
+			$model->attributes=$_POST['AcademicTermPeriod'];
+			
+			$model->academic_terms_period_organization_id = Yii::app()->user->getState('org_id');
+			$model->academic_terms_period_created_by = Yii::app()->user->id;
+            		$model->academic_terms_period_creation_date = new CDbExpression('NOW()');
 			if($model->save())
-				//$this->redirect(array('view','id'=>$model->division_id));
 				$this->redirect(array('admin'));
+				//$this->redirect(array('view','id'=>$model->academic_terms_period_id));
 		}
 
 		$this->render('create',array(
@@ -106,20 +104,11 @@ class DivisionController extends RController
 		// Uncomment the following line if AJAX validation is needed
 		 $this->performAjaxValidation($model);
 
-		if(isset($_POST['Division']))
+		if(isset($_POST['AcademicTermPeriod']))
 		{
-			$model->attributes=$_POST['Division'];
-			$model->division_code = '';
-			$divname = $model->division_name;
-			$branch_code = Branch::model()->findByPk($model->branch_id)->branch_alias;
-			$acdm_name = AcademicTerm::model()->findByPk($model->academic_name_id)->academic_term_name;
-			
-			$concatdivname = $divname.'-'.$branch_code.'-'.$acdm_name;
-		
-			$model->division_code = $concatdivname;
-
+			$model->attributes=$_POST['AcademicTermPeriod'];
 			if($model->save())
-				$this->redirect(array('admin'));//$this->redirect(array('view','id'=>$model->division_id));
+				$this->redirect(array('view','id'=>$model->academic_terms_period_id));
 		}
 
 		$this->render('update',array(
@@ -137,11 +126,20 @@ class DivisionController extends RController
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+			$result = $this->loadModel($id)->delete();
 
+			if(!$result)
+            {
+                Yii::app()->user->setFlash('deleteError','This company can not be deleted because there are existing jobs.');
+
+                            $this->redirect(array('view','id'=>$id));
+            }
+            else
+            {
 			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 			if(!isset($_GET['ajax']))
 				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+			}
 		}
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
@@ -153,15 +151,15 @@ class DivisionController extends RController
 	public function actionIndex()
 	{
 		/*
-		$dataProvider=new CActiveDataProvider('Division');
+		$dataProvider=new CActiveDataProvider('AcademicTermPeriod');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
 		*/
-		$model=new Division('search');
+		$model=new AcademicTermPeriod('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Division']))
-			$model->attributes=$_GET['Division'];
+		if(isset($_GET['AcademicTermPeriod']))
+			$model->attributes=$_GET['AcademicTermPeriod'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -174,19 +172,15 @@ class DivisionController extends RController
 	 */
 	public function actionAdmin()
 	{
-		$model=new Division('search');
+		$model=new AcademicTermPeriod('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Division']))
-			$model->attributes=$_GET['Division'];
+		if(isset($_GET['AcademicTermPeriod']))
+			$model->attributes=$_GET['AcademicTermPeriod'];
 
 		$this->render('admin',array(
 			'model'=>$model,
 		));
 	}
-
-	
-	
-	
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
@@ -195,7 +189,7 @@ class DivisionController extends RController
 	 */
 	public function loadModel($id)
 	{
-		$model=Division::model()->findByPk((int)$id);
+		$model=AcademicTermPeriod::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -207,11 +201,78 @@ class DivisionController extends RController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='division-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='academic-term-period-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 	}
+	public function actionAcademicTermPeriodExportExcel()
+	{
+	
+	    $this->toExcel($_SESSION['academic_term_period_records'],
+		array(
+			'academic_terms_period_id',
+			'academic_term_period',
+			'Rel_org.organization_name',
+			'Rel_user.user_organization_email_id',
+		),
+		'AcademicPeriod',
+		array(
+		    'creator' => 'Zen',
+		),
+		'Excel2007'
+	    );
+	}
+	    public function actionAcademicTermPeriodGeneratePdf() 
+	    {
+	   $session=new CHttpSession;
+	   $session->open();
+		Yii::import('application.extensions.tcpdf.*');
+		require_once('tcpdf/tcpdf.php');
+		require_once('tcpdf/config/lang/eng.php');
+		
+             if(isset($session['academic_term_period_records']))
+               {
+                //$model=$session['City_records'];
+		 $d = $_SESSION['academic_term_period_records'];
+		 $model = array();
 
+		$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+
+			foreach ($d->data as $item)
+			{
+			    $model[] = $item->attributes;
+			}
+	         }
+		           
+		$html = $this->renderPartial('/academicTermPeriod/academicTermPeriodGeneratePdf', array(
+			'model'=>$model
+		), true);
+		//$session->close();
+		
+		//die($html);
+		ob_clean();
+		$pdf = new TCPDF();
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor(Yii::app()->name);
+		$pdf->SetTitle('Report');
+		$pdf->SetSubject('Report');
+		$pdf->SetKeywords('example, text, report');
+		$pdf->SetHeaderData('', 0, "Report", '');
+		//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, "Example Report by ".Yii::app()->name, "");
+		$pdf->setHeaderFont(Array('helvetica', '', 8));
+		$pdf->setFooterFont(Array('helvetica', '', 6));
+		$pdf->SetMargins(15, 18, 15);
+		$pdf->SetHeaderMargin(5);
+		$pdf->SetFooterMargin(10);
+		$pdf->SetAutoPageBreak(TRUE, 0);
+		$pdf->SetFont('dejavusans', '', 7);
+		$pdf->AddPage();
+		$pdf->writeHTML($html, true, false, true, false, '');
+		$pdf->LastPage();
+		$pdf->Output("AcademicPeriod.pdf", "I");
+	
+	}
+		
 }

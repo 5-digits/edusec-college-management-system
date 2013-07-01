@@ -210,33 +210,4 @@ class BatchController extends RController
 			Yii::app()->end();
 		}
 	}
-
-/*	public function actiongetItemName()
-        { 
-            $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_period_id',
-		 array(':academic_term_period_id'=>(int) $_REQUEST['Batch']['academic_period_id']));
-                  
-            $data=CHtml::listData($data,'academic_term_id','academic_term_name');
-            foreach($data as $value=>$name)
-            {
-                echo CHtml::tag('option',
-                        array('value'=>$value),CHtml::encode($name),true);
-            }
-         }
-	public function actiongetItemName1()
-        {
-          
-		$org_id=Yii::app()->user->getState('org_id');
-
-		$data=Division::model()->findAll(array('condition'=>'branch_id='.(int) $_REQUEST['Batch']['branch_id'].' and academic_name_id='.$_REQUEST['Batch']['academic_name_id'].' and division_organization_id='.$org_id));
-                  	
-            $data=CHtml::listData($data,'division_id','division_code');
-            foreach($data as $value=>$name)
-            {
-                echo CHtml::tag('option',
-                        array('value'=>$value),CHtml::encode($name),true);
-            }
-        }*/
-	
-	 
 }

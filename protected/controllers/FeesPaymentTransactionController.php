@@ -169,7 +169,7 @@ class FeesPaymentTransactionController extends RController
                 $receipt_rang = Yii::app()->db->createCommand()
                                 ->select('fees_receipt_id')
                                 ->from('fees_receipt')
-                                ->where('fees_receipt_number >=:start AND fees_receipt_number <=:end AND  fees_receipt_org_id=:org_id ', array(':start'=>$_POST['FeesPaymentTransaction']['receipt_start_from'], ':end'=>$_POST['FeesPaymentTransaction']['receipt_end_to'],':org_id'=>Yii::app()->user->getState('org_id')))
+                                ->where('fees_receipt_number >=:start AND fees_receipt_number <=:end ', array(':start'=>$_POST['FeesPaymentTransaction']['receipt_start_from'], ':end'=>$_POST['FeesPaymentTransaction']['receipt_end_to']))
                                 ->queryAll();
 		if(!empty($receipt_rang)) {
 
@@ -254,12 +254,11 @@ class FeesPaymentTransactionController extends RController
 			if(!empty($_REQUEST['end_date']))
 			$new_end = $_REQUEST['end_date'];
 		
-			$org_id=Yii::app()->user->getState('org_id');
-			
+		
 			$start = date("Y-m-d", strtotime($new_start));
 			$end = date("Y-m-d", strtotime($new_end));
 
-			$query = "fees_payment_transaction_organization_id=".$org_id." and fees_received_date >='".$start."' AND fees_received_date <='".$end."'";
+			$query = "fees_received_date >='".$start."' AND fees_received_date <='".$end."'";
 			$query1 = "select student_transaction_id from student_transaction";
 		
 			if(!empty($_POST['FeesPaymentTransaction']['fees_acdm_period']))
@@ -398,45 +397,7 @@ class FeesPaymentTransactionController extends RController
 
 
 
-/*	public function actionBranch_receipt_generate_print()
-	{
-		$model=new FeesPaymentTransaction;
-		
-		if(!empty($_POST['FeesPaymentTransaction']['fees_acdm_period']) || !empty( $_POST['FeesPaymentTransaction']['fees_branch']) || !empty($_POST['FeesPaymentTransaction']['fees_division']))
-		{
-			$this->layout='receipt_layout';
-		
-			if(!empty($_POST['FeesPaymentTransaction']['fees_acdm_period']) && !empty( $_POST['FeesPaymentTransaction']['fees_branch']) && empty($_POST['FeesPaymentTransaction']['fees_division']))
-			{
-				$this->render('branch_receipt_generate_view',array('acdm_period'=>$_POST['FeesPaymentTransaction']['fees_acdm_period'],'acdm_name'=>$_POST['FeesPaymentTransaction']['fees_acdm_name'],'branch'=>$_POST['FeesPaymentTransaction']['fees_branch']));
-			}
-			if(!empty($_POST['FeesPaymentTransaction']['fees_acdm_period']) && !empty( $_POST['FeesPaymentTransaction']['fees_branch']) && !empty($_POST['FeesPaymentTransaction']['fees_division']))
-			{
-				$this->render('branch_receipt_generate_view',array('acdm_period'=>$_POST['FeesPaymentTransaction']['fees_acdm_period'],'acdm_name'=>$_POST['FeesPaymentTransaction']['fees_acdm_name'],'branch'=>$_POST['FeesPaymentTransaction']['fees_branch'],'division'=>$_POST['FeesPaymentTransaction']['fees_division']));
-			}
-			if(empty($_POST['FeesPaymentTransaction']['fees_acdm_period']) || !empty( $_POST['FeesPaymentTransaction']['fees_branch']) || empty($_POST['FeesPaymentTransaction']['fees_division']))
-			{
-				$this->render('branch_receipt_generate_view',array('branch'=>$_POST['FeesPaymentTransaction']['fees_branch']));
-			}
-			if(!empty($_POST['FeesPaymentTransaction']['fees_acdm_period']) || empty( $_POST['FeesPaymentTransaction']['fees_branch']) || empty($_POST['FeesPaymentTransaction']['fees_division']))
-			{
-				$this->render('branch_receipt_generate_view',array('acdm_period'=>$_POST['FeesPaymentTransaction']['fees_acdm_period'],'acdm_name'=>$_POST['FeesPaymentTransaction']['fees_acdm_name']));
-			}
-			if(!empty($_POST['FeesPaymentTransaction']['fees_acdm_period']) || !empty( $_POST['FeesPaymentTransaction']['fees_branch']) || empty($_POST['FeesPaymentTransaction']['fees_division']) || empty($_POST['FeesPaymentTransaction']['fees_acdm_name']))
-			{
-				$this->render('branch_receipt_generate_view',array('acdm_period'=>$_POST['FeesPaymentTransaction']['fees_acdm_period'],'branch'=>$_POST['FeesPaymentTransaction']['fees_branch']));
-			}
 
-		}		
-		else
-		{
-			$flag = 1;
-			$this->render('branch_receipt_generate_form_view',array(
-				'model'=>$model,'flag'=>$flag,
-			));
-			
-		}		
-	}*/
 	public function actionStudentFeesReport()
 	{
 		$model = new FeesPaymentTransaction;
@@ -459,7 +420,7 @@ class FeesPaymentTransactionController extends RController
 					->select('*')
 					->from('student_transaction stud')
 					->join('student_info stud_info', 'stud_info.student_id = stud.student_transaction_student_id')
-					->where($str.' and stud.student_transaction_organization_id='.Yii::app()->user->getState('org_id'))
+					->where($str)
 					->queryAll();
 				
 			if(!empty($info_model))
@@ -529,7 +490,7 @@ class FeesPaymentTransactionController extends RController
 					->select('*')
 					->from('student_transaction stud')
 					->join('student_info stud_info', 'stud_info.student_id = stud.student_transaction_student_id')
-					->where('stud.student_transaction_id='.Yii::app()->user->getState('stud_id').' and stud.student_transaction_organization_id='.Yii::app()->user->getState('org_id'))
+					->where('stud.student_transaction_id='.Yii::app()->user->getState('stud_id') )
 					->queryAll();
 			$model1=new StudentFeesMaster('student_details_fees');
 			if(!empty($info_model))
@@ -700,7 +661,6 @@ class FeesPaymentTransactionController extends RController
 			    ->join('fees_master fees','stud.student_transaction_branch_id = fees.fees_branch_id
 		AND stud.student_academic_term_period_tran_id = fees.fees_academic_term_id
 		AND stud.student_academic_term_name_id = fees.fees_academic_term_name_id 	
-		AND stud.student_transaction_organization_id = fees.fees_organization_id
 		AND stud.student_transaction_quota_id = fees.fees_quota_id')
 			    ->where('stud.student_transaction_id=:id', array(':id'=>$result))
 			    ->queryRow();
@@ -812,7 +772,6 @@ class FeesPaymentTransactionController extends RController
 			  $last_receipt_id = Yii::app()->db->createCommand()
 				->select('MAX(fees_receipt_number) as lastid')
 				->from('fees_receipt')
-				->where('fees_receipt_org_id=:id', array(':id'=>Yii::app()->user->getState('org_id')))
 				->queryRow();
 			   	$receipt->fees_receipt_number = $last_receipt_id['lastid'] + 1; 
 				$receipt->fees_receipt_org_id = Yii::app()->user->getState('org_id');
@@ -845,53 +804,7 @@ class FeesPaymentTransactionController extends RController
 
 				$stud_email_id = StudentInfo::model()->findByPk($stud_info_id)->student_email_id_1;
 
-
-				// SEND SMS TO LOGIN USER WITH RANDOM NUMBER
-				/*
-				$c = curl_init();
-				curl_setopt($c, CURLOPT_URL, 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?');
-				curl_setopt($c, CURLOPT_POST, true);
-				curl_setopt($c, CURLOPT_POSTFIELDS,'username=barinder&password=988882665&sendername=DDIT&mobileno='.$stud_add_mobile.'&message=Succesfully recived your fees of amount: '.$pay_cash->fees_payment_cash_amount);
-				curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
-				if(curl_exec($c))
-					echo 'sent';
-				else
-					var_dump(curl_error($c));
-				curl_close ($c);
-				
-
-				// SEND AN EMAIL TO STUDENT AT THEIR PERSONAL EMAIL ID 1....
-
-				
-				require_once "Mail.php";
-				 
-				 $from = "<rudratestmail@gmail.com>";
-				 $to = $stud_email_id;
-				 $subject = "Notification for paid Fees";
-				 $body = "Dear Student, Your fees recieved succesfully of amount :".$pay_cash->fees_payment_cash_amount;
-				 
-				 $host = "smtp.gmail.com";
-				 $username = "rudratestmail@gmail.com";
-				 $password = "rudra741";
-				 
-				 $headers = array ('From' => $from,
-				   'To' => $to,
-				   'Subject' => $subject);
-				 $smtp = Mail::factory('smtp',
-				   array ('host' => $host,
-				     'auth' => true,
-				     'username' => $username,
-				     'password' => $password));
-				 
-				 $mail = $smtp->send($to, $headers, $body);
-				 
-				 if (PEAR::isError($mail)) {
-				   echo("<p>" . $mail->getMessage() . "</p>");
-				  } else {
-				   echo("<p>Message successfully sent!</p>");
-				  }
-				*/
-				
+			
 				$this->redirect(array('create','id'=>$pay_trans->fees_student_id));
 
 			}
@@ -993,54 +906,6 @@ class FeesPaymentTransactionController extends RController
 				$stud_add_mobile = StudentInfo::model()->findByPk($stud_info_id)->student_mobile_no;
 				$stud_email_id = StudentInfo::model()->findByPk($stud_info_id)->student_email_id_1;
 
-
-				// SEND SMS TO LOGIN USER WITH RANDOM NUMBER
-				/*
-
-				$c = curl_init();
-				curl_setopt($c, CURLOPT_URL, 'http://bulksms.mysmsmantra.com:8080/WebSMS/SMSAPI.jsp?');
-				curl_setopt($c, CURLOPT_POST, true);
-				curl_setopt($c, CURLOPT_POSTFIELDS,'username=barinder&password=988882665&sendername=DDIT&mobileno='.$stud_add_mobile.'&message=Succesfully recived your fees of amount: '.$pay_cheque->fees_payment_cheque_amount);
-				curl_setopt($c, CURLOPT_SSL_VERIFYPEER, false);
-				if(curl_exec($c))
-					echo 'sent';
-				else
-					var_dump(curl_error($c));
-				curl_close ($c);
-				*/
-
-				// SEND AN EMAIL TO STUDENT AT THEIR PERSONAL EMAIL ID 1....
-
-				/*
-				require_once "Mail.php";
-				 
-				 $from = "<rudratestmail@gmail.com>";
-				 $to = $stud_email_id;
-				 $subject = "Notification for paid Fees";
-				 $body = "Dear Student, Your fees recieved succesfully of amount :".$pay_cheque->fees_payment_cheque_amount;
-				 
-				 $host = "smtp.gmail.com";
-				 $username = "rudratestmail@gmail.com";
-				 $password = "rudra741";
-				 
-				 $headers = array ('From' => $from,
-				   'To' => $to,
-				   'Subject' => $subject);
-				 $smtp = Mail::factory('smtp',
-				   array ('host' => $host,
-				     'auth' => true,
-				     'username' => $username,
-				     'password' => $password));
-				 
-				 $mail = $smtp->send($to, $headers, $body);
-				 
-				 if (PEAR::isError($mail)) {
-				   echo("<p>" . $mail->getMessage() . "</p>");
-				  } else {
-				   echo("<p>Message successfully sent!</p>");
-				  }
-
-				*/
 				$this->redirect(array('create','id'=>$pay_trans->fees_student_id));
 
 			}
@@ -1080,14 +945,6 @@ class FeesPaymentTransactionController extends RController
 	}
 
 	/**
-	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'view' page.
-	 * @param integer $id the ID of the model to be updated
-	 */
-
-
-
-	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
@@ -1113,10 +970,7 @@ class FeesPaymentTransactionController extends RController
 	 */
 	public function actionIndex()
 	{
-/*		$dataProvider=new CActiveDataProvider('FeesPaymentTransaction');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));*/
+
 		$model=new FeesPaymentTransaction('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['FeesPaymentTransaction']))
@@ -1190,7 +1044,7 @@ class FeesPaymentTransactionController extends RController
 	{
 
 		$model=new FeesPaymentTransaction;
-		$current_aca_term = AcademicTerm::model()->findAll(array('condition'=>'current_sem=1 and academic_term_organization_id='.Yii::app()->user->getState('org_id')));
+		$current_aca_term = AcademicTerm::model()->findAll(array('condition'=>'current_sem=1'));
 		
 		if($current_aca_term){
 		$aca_data = array();
@@ -1205,7 +1059,7 @@ class FeesPaymentTransactionController extends RController
 		$fees_data = Yii::app()->db->createCommand()
 			->selectDistinct('fees_master_id, fees_branch_id, fees_academic_term_id,fees_quota_id, fees_academic_term_name_id')
 			->from('fees_master')
-			->where('fees_academic_term_name_id in('.$acam_data.') AND fees_organization_id='.Yii::app()->user->getState('org_id').' order by fees_branch_id,fees_academic_term_name_id')
+			->where('fees_academic_term_name_id in('.$acam_data.') order by fees_branch_id,fees_academic_term_name_id')
 			->queryAll();
 		//print count($fees_data); exit;
 	if(!empty($fees_data))
@@ -1219,7 +1073,7 @@ class FeesPaymentTransactionController extends RController
 			if(!empty($list))
 			{
 
-				$sql = "SELECT COUNT(*) FROM student_transaction where student_transaction_quota_id=".$list['fees_quota_id']." and student_transaction_branch_id = ".$list['fees_branch_id']." AND student_academic_term_period_tran_id = ".$list['fees_academic_term_id']." AND student_academic_term_name_id = ".$list['fees_academic_term_name_id']." AND student_transaction_organization_id = ".Yii::app()->user->getState('org_id');
+				$sql = "SELECT COUNT(*) FROM student_transaction where student_transaction_quota_id=".$list['fees_quota_id']." and student_transaction_branch_id = ".$list['fees_branch_id']." AND student_academic_term_period_tran_id = ".$list['fees_academic_term_id']." AND student_academic_term_name_id = ".$list['fees_academic_term_name_id'];
 			
 
 
@@ -1230,11 +1084,11 @@ class FeesPaymentTransactionController extends RController
 				->selectDistinct('fees.fees_student_id, stud.student_transaction_id,stud.student_transaction_student_id,stud.student_transaction_quota_id')
 				->from('fees_payment_transaction fees')
 				->join('student_transaction stud', 'fees.fees_student_id = stud.student_transaction_id')
-				->where('stud.student_transaction_branch_id = :branch_id AND stud.student_transaction_quota_id=:quota AND stud.student_academic_term_period_tran_id = :acm_id AND fees.fees_academic_term_id = :acm_name_id AND stud.student_transaction_organization_id = :stud_org_id', array(
+				->where('stud.student_transaction_branch_id = :branch_id AND stud.student_transaction_quota_id=:quota AND stud.student_academic_term_period_tran_id = :acm_id AND fees.fees_academic_term_id = :acm_name_id', array(
 						':branch_id' => $list['fees_branch_id'], 
 						':acm_id' => $list['fees_academic_term_id'], 
 						':acm_name_id' => $list['fees_academic_term_name_id'], 
-						':stud_org_id' => Yii::app()->user->getState('org_id'), 
+						
 						':quota'=>$list['fees_quota_id'],
 					))
 				->queryAll();
@@ -1263,11 +1117,11 @@ class FeesPaymentTransactionController extends RController
 				->selectDistinct('stud.student_transaction_id,stud.student_transaction_student_id,stud.student_transaction_quota_id')
 				->from('student_transaction stud')
 				->where('stud.student_transaction_id NOT IN (SELECT fees_student_id FROM fees_payment_transaction)
-				AND stud.student_transaction_branch_id = :branch_id AND stud.student_academic_term_period_tran_id = :acm_id AND stud.student_academic_term_name_id = :acm_name_id AND stud.student_transaction_organization_id = :stud_org_id', array(
+				AND stud.student_transaction_branch_id = :branch_id AND stud.student_academic_term_period_tran_id = :acm_id AND stud.student_academic_term_name_id = :acm_name_id', array(
 						':branch_id' => $list['fees_branch_id'], 
 						':acm_id' => $list['fees_academic_term_id'], 
 						':acm_name_id' => $list['fees_academic_term_name_id'], 
-						':stud_org_id' => Yii::app()->user->getState('org_id'),					))
+				))
 				->queryAll();
 				$unpaid_stud_count[] = $ravi_total - $ravi_paid; 
 				//$unpaid_stud_count[] = count($unpaid_stud);
@@ -1284,7 +1138,7 @@ class FeesPaymentTransactionController extends RController
 			    ->join('fees_master fees','stud.student_transaction_branch_id = fees.fees_branch_id
 		AND stud.student_academic_term_period_tran_id = fees.fees_academic_term_id
 		AND stud.student_academic_term_name_id = fees.fees_academic_term_name_id 	
-		AND stud.student_transaction_organization_id = fees.fees_organization_id
+
 		AND stud.student_transaction_quota_id = fees.fees_quota_id')
 			    ->where('stud.student_academic_term_period_tran_id = :term_p_id AND stud.student_academic_term_name_id = :term_name_id AND fees.fees_master_id = :fees_id', array(':fees_id'=>$list['fees_master_id'], ':term_p_id'=>$list['fees_academic_term_id'], ':term_name_id' =>$list['fees_academic_term_name_id']))
 			    ->queryAll();
@@ -1300,30 +1154,7 @@ class FeesPaymentTransactionController extends RController
 			//print $total; exit;
 			$total_amount[] = $total;
 		
-//			$total += $fees_data['fees_details_amount'];
 
-			/*if(count($total_amount_data) > 1 ) {
-				foreach($total_amount_data as $fees_list) {
-
-				$count_stud_sql = "SELECT COUNT(*) FROM student_transaction where student_transaction_branch_id = ".$fees_list->fees_branch_id." AND student_academic_term_period_tran_id = ".$fees_list->fees_academic_term_id." AND student_academic_term_name_id = ".$fees_list->fees_academic_term_name_id." AND student_transaction_quota_id = ".$fees_list->fees_quota_id." AND student_transaction_organization_id = ".Yii::app()->user->getState('org_id');		
-
-				$numStud1 = Yii::app()->db->createCommand($count_stud_sql)->queryScalar();
-
-				$my_total += $numStud1 * $fees_list->fees_master_total;
-
-				}
-				$total_amount[] = $my_total;	
-			}	
-			else {
-				foreach($total_amount_data as $fees_list) {
-
-				$count_stud_sql = "SELECT COUNT(*) FROM student_transaction where student_transaction_branch_id = ".$fees_list->fees_branch_id." AND student_academic_term_period_tran_id = ".$fees_list->fees_academic_term_id." AND student_academic_term_name_id = ".$fees_list->fees_academic_term_name_id."  AND student_transaction_organization_id = ".Yii::app()->user->getState('org_id');		
-				$numStud2 = Yii::app()->db->createCommand($count_stud_sql)->queryScalar();
-				$total_amount[] = $numStud2 * $fees_list->fees_master_total;
-				
-				}
-
-			}*/	
 		
 		}
 

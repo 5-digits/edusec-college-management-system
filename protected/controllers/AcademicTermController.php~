@@ -227,5 +227,75 @@ class AcademicTermController extends RController
 			Yii::app()->end();
 		}
 	}
+	public function actionAcademicTermExportExcel()
+	{
+	
+	    $this->toExcel($_SESSION['academic_term_records'],
+		array(
+			'academic_term_name',
+			'academic_term_start_date', 	
+			'academic_term_end_date',
+			'academicTermPeriod.academic_term_period',
+			'current_sem',
+			'Rel_org.organization_name',
+			
+		),
+		'AcademicTerm',
+		array(
+		    'creator' => 'Zen',
+		),
+		'Excel2007'
+	    );
+	}
+	    public function actionAcademicTermGeneratePdf() 
+	    {
+	   $session=new CHttpSession;
+	   $session->open();
+		Yii::import('application.extensions.tcpdf.*');
+		require_once('tcpdf/tcpdf.php');
+		require_once('tcpdf/config/lang/eng.php');
+		
+             if(isset($session['academic_term_records']))
+               {
+                //$model=$session['City_records'];
+		 $d = $_SESSION['academic_term_records'];
+		 $model = array();
 
+		$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+
+			foreach ($d->data as $item)
+			{
+			    $model[] = $item->attributes;
+			}
+	         }
+		           
+		$html = $this->renderPartial('/academicTerm/academicTermGeneratePdf', array(
+			'model'=>$model
+		), true);
+		//$session->close();
+		
+		//die($html);
+		ob_clean();
+		$pdf = new TCPDF();
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor(Yii::app()->name);
+		$pdf->SetTitle('Student Report');
+		$pdf->SetSubject('Student Report');
+		$pdf->SetKeywords('example, text, report');
+		$pdf->SetHeaderData('', 0, "Report", '');
+		//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, "Example Report by ".Yii::app()->name, "");
+		$pdf->setHeaderFont(Array('helvetica', '', 8));
+		$pdf->setFooterFont(Array('helvetica', '', 6));
+		$pdf->SetMargins(15, 18, 15);
+		$pdf->SetHeaderMargin(5);
+		$pdf->SetFooterMargin(10);
+		$pdf->SetAutoPageBreak(TRUE, 0);
+		$pdf->SetFont('dejavusans', '', 7);
+		$pdf->AddPage();
+		$pdf->writeHTML($html, true, false, true, false, '');
+		$pdf->LastPage();
+		$pdf->Output("AcademicTerm.pdf", "I");
+	
+	}
+	
 }

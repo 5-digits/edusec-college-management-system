@@ -83,6 +83,11 @@ class MiscellaneousFeesPaymentTransaction extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->condition = 'miscellaneous_fees_payment_transaction_organization_id = :miscellaneous_fees_payment_transaction_organization_id';
+	        $criteria->params = array(':miscellaneous_fees_payment_transaction_organization_id' => Yii::app()->user->getState('org_id'));
+
+
+
 		$criteria->compare('miscellaneous_trans_id',$this->miscellaneous_trans_id);
 		$criteria->compare('miscellaneous_fees_id',$this->miscellaneous_fees_id);
 		$criteria->compare('student_fees_id',$this->student_fees_id);

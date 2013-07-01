@@ -82,9 +82,9 @@ class FeesPaymentCheque extends CActiveRecord
 			'fees_payment_cheque_amount' => 'Amount',
 			'fees_payment_cheque_status' => 'Cheque/DD Status',
 			'fees_payment_cheque_organization_id'=>'Organization',
-			'student_first_name'=> 'first name',
-			'student_roll_no'=> 'roll no',
-			'student_enroll_no'=> 'enroll no',
+			'student_first_name'=> 'First name',
+			'student_roll_no'=> 'Roll no',
+			'student_enroll_no'=> 'Enroll no',
 			'academic_term_period'=>'Academic Year',
 			'academic_term_name'=>'Semester',
 		);
@@ -119,8 +119,8 @@ class FeesPaymentCheque extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->condition = 'fees_payment_cheque_status = :cheque_status AND fees_payment_cheque_number = :cheque_no AND fees_payment_cheque_organization_id = :org_id';
-		$criteria->params = array(':cheque_status'=>0,':cheque_no' =>$no,':org_id'=>Yii::app()->user->getState('org_id'));
+		$criteria->condition = 'fees_payment_cheque_status = :cheque_status AND fees_payment_cheque_number = :cheque_no';
+		$criteria->params = array(':cheque_status'=>0,':cheque_no' =>$no);
 		$criteria->compare('fees_payment_cheque_id',$this->fees_payment_cheque_id);
 		$criteria->compare('fees_payment_cheque_number',$this->fees_payment_cheque_number);
 		$criteria->compare('fees_payment_cheque_date',$this->fees_payment_cheque_date,true);
@@ -143,8 +143,8 @@ class FeesPaymentCheque extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->condition = 'fees_payment_cheque_status = :cheque_status AND fees_payment_cheque_organization_id = :org_id';
-		$criteria->params = array(':cheque_status' => 0,':org_id'=>Yii::app()->user->getState('org_id'));
+		$criteria->condition = 'fees_payment_cheque_status = :cheque_status';
+		$criteria->params = array(':cheque_status' => 0);
 		$criteria->compare('fees_payment_cheque_id',$this->fees_payment_cheque_id,true);
 		$criteria->compare('fees_payment_cheque_number',$this->fees_payment_cheque_number,true);
 		$criteria->compare('fees_payment_cheque_date',$this->fees_payment_cheque_date,true);
@@ -163,7 +163,7 @@ class FeesPaymentCheque extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$criteria->condition = 'fees_payment_cheque_status = :cheque_status AND fees_payment_cheque_organization_id = :org_id';
+		$criteria->condition = 'fees_payment_cheque_status = :cheque_status';
 		$criteria->params = array(':cheque_status' => 1,':org_id'=>Yii::app()->user->getState('org_id'));
 		$criteria->compare('fees_payment_cheque_id',$this->fees_payment_cheque_id,true);
 		$criteria->compare('fees_payment_cheque_number',$this->fees_payment_cheque_number,true);

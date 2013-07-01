@@ -49,7 +49,9 @@ class AcademicTerm extends CActiveRecord
 			array('academic_term_name','CRegularExpressionValidator','pattern'=>'/^([1-9]+)$/','message'=>''),
 			array('academic_term_name','unique'),
 			array('academic_term_end_date','comparedate','message'=>'Select Unique From Date and End Date'),
-	
+			// 
+			// 
+			// 
 			array('academic_term_id, academic_term_name, academic_term_period_id,academic_term_period,academic_term_organization_id,academic_term_start_date,academic_term_end_date, current_sem,academic_term_end_date', 'safe', 'on'=>'search'),
 		);
 			

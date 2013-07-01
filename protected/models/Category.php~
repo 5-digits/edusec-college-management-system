@@ -91,6 +91,10 @@ class Category extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+	//	$criteria->condition = 'category_organization_id = :category_org_id';
+	//        $criteria->params = array(':category_org_id' => Yii::app()->user->getState('org_id'));
+
+
 		$criteria->compare('category_id',$this->category_id);
 		$criteria->compare('category_name',$this->category_name,true);
 		$criteria->compare('category_organization_id',$this->category_organization_id);

@@ -48,7 +48,9 @@ class Division extends CActiveRecord
 			array('division_organization_id, division_created_by, branch_id , academic_period_id, academic_name_id', 'numerical', 'integerOnly'=>true),
 			array('division_name', 'length', 'max'=>60),
 array('division_name','CRegularExpressionValidator','pattern'=>'/^[a-zA-Z1-9]+([-][a-zA-Z1-9]+)*$/','message'=>''),
-
+			//array('division_name', 'unique','message'=>'Already Exist.'),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
 			array('division_id, division_name, division_organization_id, division_created_by, division_creation_date, branch_id , academic_period_id, academic_name_id, branch_name,academic_term_name,academic_term_period', 'safe', 'on'=>'search'),
 		);
 	}

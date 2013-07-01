@@ -47,7 +47,7 @@ class EmployeeDesignation extends CActiveRecord
 			array('employee_designation_name, employee_designation_organization_id, employee_designation_created_by, employee_designation_created_date,employee_designation_level', 'required','message'=>''),
 			array('employee_designation_organization_id, employee_designation_level, employee_designation_created_by', 'numerical', 'integerOnly'=>true,'message'=>''),
 			array('employee_designation_name', 'length', 'max'=>60),
-			array('employee_designation_name', 'checkemployeedesignation'),
+			array('employee_designation_name', 'unique'),
 			array('employee_designation_name','CRegularExpressionValidator','pattern'=>'/^[a-zA-Z&. ]+([ -][a-zA-Z. ]+)*$/','message'=>''),
 			array('employee_designation_level','CRegularExpressionValidator','pattern'=>'/^([0-9]+)$/','message'=>''),
 			// The following rule is used by search().
@@ -130,55 +130,8 @@ class EmployeeDesignation extends CActiveRecord
     private static function loadItems()
     {
         self::$_items=array();
-        $models=self::model()->findAll('employee_designation_organization_id='.Yii::app()->user->getState('org_id'));
+        $models=self::model()->findAll();
         foreach($models as $model)
             self::$_items[$model->employee_designation_id]=$model->employee_designation_name;
     }
-
-    /* before save for uniqueness of employee designation name */
-
-	public function checkemployeedesignation()
-		{
-			if($this->isNewRecord)
-			{
-				$empdname='"'.strtolower($this->employee_designation_name).'"';
-				$emp_designation_name=Yii::app()->db->createCommand()
-					    ->select('employee_designation_name')
-					    ->from('employee_designation')
-					    ->where('employee_designation_organization_id='.Yii::app()->user->getState('org_id').' and LOWER(employee_designation_name)='.$empdname)
-				    	    ->queryAll();
-				
-				if($emp_designation_name)
-				{
-					$this->addError('employee_designation_name',"Already Exists.");	
-					 return false;	
-				}
-				else
-				{
-					return true;
-				}
-			}
-			else
-			{
-				$empdid=$_REQUEST['id'];
-				$empdname='"'.strtolower($this->employee_designation_name).'"';
-				$orgid=Yii::app()->user->getState('org_id');
-				$emp_designation_name=Yii::app()->db->createCommand()
-					    ->select('employee_designation_name')
-					    ->from('employee_designation')
-					    ->where('employee_designation_id <>'.$empdid.' and employee_designation_organization_id='.$orgid.' and LOWER(employee_designation_name)='.$empdname)
-				    	    ->queryAll();
-				
-				if($emp_designation_name)
-				  {
-				 	$this->addError('employee_designation_name',"Already Exists.");	
-					 return false;	
-				  }
-				else
-			          {
-					return true;
-				  }
-			}	
-		}
-
-}
+ }

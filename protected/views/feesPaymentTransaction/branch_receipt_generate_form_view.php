@@ -13,11 +13,9 @@ $this->breadcrumbs=array(
 )); ?>
 
 	<?php
-	$org_id=Yii::app()->user->getState('org_id');
 	$acd = Yii::app()->db->createCommand()
 		->select('*')
 		->from('academic_term')
-		->where('current_sem=1 and academic_term_organization_id='.$org_id)
 		->queryAll();
 	$acdterm=CHtml::listData($acd,'academic_term_id','academic_term_name');	
 	$pe_data = AcademicTermPeriod::model()->findByPk($acd[0]['academic_term_period_id']);
@@ -52,7 +50,7 @@ $this->breadcrumbs=array(
 		<?php //echo $form->textField($model,'acdm_name_id'); ?>	
 		<?php
 			echo $form->dropDownList($model,'fees_branch',
-				CHtml::listData(Branch::model()->findAll(array('condition'=> 'branch_organization_id='.$org_id)),'branch_id','branch_name'),
+				CHtml::listData(Branch::model()->findAll(),'branch_id','branch_name'),
 				array(
 				'prompt' => 'Select Branch','tabindex'=>3,
 				'ajax' => array(

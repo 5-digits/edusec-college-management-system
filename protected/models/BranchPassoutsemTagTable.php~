@@ -50,7 +50,7 @@ class BranchPassoutsemTagTable extends CActiveRecord
 			
 			array('branch_tag_name', 'length', 'max'=>20),
 			//array('branch_tag_name', 'unique','message'=>'Already Exist.'),
-			array('branch_tag_name', 'unique'),
+			array('branch_tag_name', 'checkbranch'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, branch_tag_name, pass_out_sem, created_by, creation_date, organization_id', 'safe', 'on'=>'search'),

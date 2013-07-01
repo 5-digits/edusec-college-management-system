@@ -190,62 +190,6 @@ class FeesMaster extends CActiveRecord
 		return $data;
 	}
 
-
-
-	/*public function beforeSave()
-	{
-		    if($this->isNewRecord)
-		    {
-		        $result=FeesMaster::model()->findByAttributes(array('fees_branch_id'=>$this->fees_branch_id,'fees_academic_term_id'=>$this->fees_academic_term_id,'fees_academic_term_name_id'=>$this->fees_academic_term_name_id,'fees_quota_id'=>$this->fees_quota_id));
-
-		        if(count($result))
-		        {
-		            $this->addErrors(array(
-		            'fees_quota_id'=>'Record already exist with this criteria',
-		            'fees_branch_id'=>'Record already exist with this criteria',
-		            'fees_academic_term_id'=>'Record already exist with this criteria',
-		            'fees_academic_term_name_id'=>'Record already exist with this criteria'));
-		            return false;
-
-		        }
-		        else
-		        {
-		            return true;   
-		        }
-		    }
-		   
-		    else
-		    {
-		        $temp=FeesMaster::model()->findByPk($this->fees_master_id);
-		        if($this->fees_branch_id == $temp['fees_branch_id'] && $this->fees_academic_term_id == $temp['fees_academic_term_id'] && $this->fees_academic_term_name_id == $temp['fees_academic_term_name_id'] && $this->fees_quota_id == $temp['fees_quota_id'])
-		        {
-		            return true;
-		        }
-		        else
-		        {
-		           
-		            $result=FeesMaster::model()->findByAttributes(array('fees_branch_id'=>$this->fees_branch_id,'fees_academic_term_id'=>$this->fees_academic_term_id,'fees_academic_term_name_id'=>$this->fees_academic_term_name_id,'fees_quota_id'=>$this->fees_quota_id));
-
-		            if(count($result))
-		            {
-		                $this->addErrors(array(
-		            'fees_quota_id'=>'Record already exist with this criteria',
-		            'fees_branch_id'=>'Record already exist with this criteria',
-		            'fees_academic_term_id'=>'Record already exist with this criteria',
-		            'fees_academic_term_name_id'=>'Record already exist with this criteria'));
-		           
-		                return false;
-
-		            }
-		            else
-		            {
-		                return true;   
-		            }
-		        }
-		   
-		    }
-		}
-		*/
 		private static $_items=array();
 
 		public static function items()

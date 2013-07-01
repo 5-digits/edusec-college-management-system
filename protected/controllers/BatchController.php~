@@ -1,6 +1,6 @@
 <?php
 
-class DivisionController extends RController
+class BatchController extends RController
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -17,8 +17,6 @@ class DivisionController extends RController
 			'rights', // perform access control for CRUD operations
 		);
 	}
-	
-
 
 	/**
 	 * Specifies the access control rules.
@@ -56,6 +54,7 @@ class DivisionController extends RController
 			'model'=>$this->loadModel($id),
 		));
 	}
+	 	
 
 	/**
 	 * Creates a new model.
@@ -63,29 +62,28 @@ class DivisionController extends RController
 	 */
 	public function actionCreate()
 	{
-		$model=new Division;
+		$model=new Batch;
 
 		// Uncomment the following line if AJAX validation is needed
 		 $this->performAjaxValidation($model);
 
-		if(isset($_POST['Division']))
+		if(isset($_POST['Batch']))
 		{
-			$model->attributes=$_POST['Division'];
-		
-			$divname = $model->division_name;
+			$model->attributes=$_POST['Batch'];
+
+			$batchname = $model->batch_name;
 			$branch_code = Branch::model()->findByPk($model->branch_id)->branch_alias;
+			$division_name = Division::model()->findByPk($model->div_id)->division_name;
 			$acdm_name = AcademicTerm::model()->findByPk($model->academic_name_id)->academic_term_name;
-			//echo $branch_code;
-			//echo $acdm_name;
-			//echo $divname;
-			$concatdivname = $divname.'-'.$branch_code.'-'.$acdm_name;
-			//exit;
-			$model->division_code = $concatdivname;
-			$model->division_organization_id = Yii::app()->user->getState('org_id');
-			$model->division_created_by=Yii::app()->user->id;
-			$model->division_creation_date=new CDbExpression('NOW()');
+			
+			$concatdivname = $batchname.'-'.$branch_code.'-'.$acdm_name.'-'.$division_name;
+			$model->batch_code = $concatdivname;
+
+			$model->batch_organization_id = Yii::app()->user->getState('org_id');
+			$model->batch_created_by=Yii::app()->user->id;
+			$model->batch_creation_date=new CDbExpression('NOW()');
 			if($model->save())
-				//$this->redirect(array('view','id'=>$model->division_id));
+				//$this->redirect(array('view','id'=>$model->batch_id));
 				$this->redirect(array('admin'));
 		}
 
@@ -106,20 +104,20 @@ class DivisionController extends RController
 		// Uncomment the following line if AJAX validation is needed
 		 $this->performAjaxValidation($model);
 
-		if(isset($_POST['Division']))
+		if(isset($_POST['Batch']))
 		{
-			$model->attributes=$_POST['Division'];
-			$model->division_code = '';
-			$divname = $model->division_name;
+			$model->attributes=$_POST['Batch'];
+			$model->batch_code = '';
+
+			$batchname = $model->batch_name;
 			$branch_code = Branch::model()->findByPk($model->branch_id)->branch_alias;
+			$division_name = Division::model()->findByPk($model->div_id)->division_name;
 			$acdm_name = AcademicTerm::model()->findByPk($model->academic_name_id)->academic_term_name;
 			
-			$concatdivname = $divname.'-'.$branch_code.'-'.$acdm_name;
-		
-			$model->division_code = $concatdivname;
-
+			$concatdivname = $batchname.'-'.$branch_code.'-'.$acdm_name.'-'.$division_name;
+			$model->batch_code = $concatdivname;
 			if($model->save())
-				$this->redirect(array('admin'));//$this->redirect(array('view','id'=>$model->division_id));
+				$this->redirect(array('admin'));//$this->redirect(array('view','id'=>$model->batch_id));
 		}
 
 		$this->render('update',array(
@@ -153,20 +151,23 @@ class DivisionController extends RController
 	public function actionIndex()
 	{
 		/*
-		$dataProvider=new CActiveDataProvider('Division');
+		$dataProvider=new CActiveDataProvider('Batch' , array(
+		    'criteria'=>array(
+			'condition'=>'batch_organization_id ='.Yii::app()->user->getState('org_id'),
+		)));
+
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
-		));
-		*/
-		$model=new Division('search');
+		)); */
+
+		$model=new Batch('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Division']))
-			$model->attributes=$_GET['Division'];
+		if(isset($_GET['Batch']))
+			$model->attributes=$_GET['Batch'];
 
 		$this->render('admin',array(
 			'model'=>$model,
 		));
-
 	}
 
 	/**
@@ -174,19 +175,15 @@ class DivisionController extends RController
 	 */
 	public function actionAdmin()
 	{
-		$model=new Division('search');
+		$model=new Batch('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Division']))
-			$model->attributes=$_GET['Division'];
+		if(isset($_GET['Batch']))
+			$model->attributes=$_GET['Batch'];
 
 		$this->render('admin',array(
 			'model'=>$model,
 		));
 	}
-
-	
-	
-	
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
@@ -195,7 +192,7 @@ class DivisionController extends RController
 	 */
 	public function loadModel($id)
 	{
-		$model=Division::model()->findByPk((int)$id);
+		$model=Batch::model()->findByPk((int)$id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -207,11 +204,39 @@ class DivisionController extends RController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='division-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='batch-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 	}
 
+/*	public function actiongetItemName()
+        { 
+            $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_period_id',
+		 array(':academic_term_period_id'=>(int) $_REQUEST['Batch']['academic_period_id']));
+                  
+            $data=CHtml::listData($data,'academic_term_id','academic_term_name');
+            foreach($data as $value=>$name)
+            {
+                echo CHtml::tag('option',
+                        array('value'=>$value),CHtml::encode($name),true);
+            }
+         }
+	public function actiongetItemName1()
+        {
+          
+		$org_id=Yii::app()->user->getState('org_id');
+
+		$data=Division::model()->findAll(array('condition'=>'branch_id='.(int) $_REQUEST['Batch']['branch_id'].' and academic_name_id='.$_REQUEST['Batch']['academic_name_id'].' and division_organization_id='.$org_id));
+                  	
+            $data=CHtml::listData($data,'division_id','division_code');
+            foreach($data as $value=>$name)
+            {
+                echo CHtml::tag('option',
+                        array('value'=>$value),CHtml::encode($name),true);
+            }
+        }*/
+	
+	 
 }

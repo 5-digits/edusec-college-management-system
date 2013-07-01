@@ -103,6 +103,8 @@ class Branch extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		//$criteria->with = array('Rel_Branch_Tag');  /// Note: Define relation with related table....
+		//$criteria->compare('Rel_Branch_Tag.branch_tag_name',$this->branch_tag_name,true);  // Note: Compare related table field with relation....
 		$criteria->compare('branch_tag_id',$this->branch_tag_id,true);
 		$criteria->compare('branch_id',$this->branch_id);
 		$criteria->compare('branch_name',$this->branch_name,true);

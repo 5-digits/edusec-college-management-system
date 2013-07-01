@@ -109,7 +109,7 @@ class Batch extends CActiveRecord
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
-		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1 and academic_term_organization_id='.Yii::app()->user->getState('org_id'));
+		$acdm_terms = AcademicTerm::model()->findAll('current_sem=1');
 			
 			$data = array();
 			foreach($acdm_terms as $list)
@@ -118,23 +118,14 @@ class Batch extends CActiveRecord
 			}
 			$criteria->addInCondition('t.academic_name_id', $data, 'OR');
 
+		$criteria->with = array('rel_batch_academic_period_id','rel_batch_academic_id','rel_division');  
 
-
-
-		//$criteria->condition = 'batch_organization_id = :batch_org_id';
-	       // $criteria->params = array(':batch_org_id' => Yii::app()->user->getState('org_id'));
-
-		$criteria->with = array('rel_batch_academic_period_id','rel_batch_academic_id','rel_division','rel_subject');  /// Note: Define relation with related table....
-
-		//$criteria->compare('rel_branch.branch_name',$this->branch_name,true);  // Note: Compare related table field with relation....
-		$criteria->compare('rel_division.division_code',$this->division_code,true);  // Note: Compare related table field with relation....
-		$criteria->compare('rel_subject.subject_master_name',$this->subject_master_name,true);  // Note: Compare related table field with relation....
+		$criteria->compare('rel_division.division_code',$this->division_code,true);  // 
 
 		$criteria->compare('rel_batch_academic_period_id.academic_term_period',$this->academic_term_period,true);
 		$criteria->compare('rel_batch_academic_id.academic_term_name',$this->academic_term_name,true);
 
 		$criteria->compare('batch_id',$this->batch_id);
-		//$criteria->compare('batch_name',$this->batch_name,true);
 		$criteria->compare('batch_organization_id',$this->batch_organization_id);
 		$criteria->compare('batch_created_by',$this->batch_created_by);
 		$criteria->compare('batch_creation_date',$this->batch_creation_date,true);
@@ -142,7 +133,7 @@ class Batch extends CActiveRecord
 		$criteria->compare('batch_code',$this->batch_code);
 		$criteria->compare('t.branch_id',$this->branch_id);
 		$criteria->compare('div_id',$this->div_id);
-		$criteria->compare('subject_id',$this->subject_id);
+		
 		$criteria->compare('academic_period_id',$this->academic_period_id);
 		$criteria->compare('academic_name_id',$this->academic_name_id);
 
@@ -216,7 +207,7 @@ class Batch extends CActiveRecord
     	private static function loadItems()
     	{
         	self::$_items=array();
-        	$models=self::model()->findAll(array('condition'=>'batch_organization_id='.Yii::app()->user->getState('org_id')));
+        	$models=self::model()->findAll();
         	foreach($models as $model)
             self::$_items[$model->batch_id]=$model->batch_name;
     	}

@@ -93,9 +93,12 @@ class FeedbackCategoryMaster extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
+		$criteria->condition = 'feedback_category_organizaton_id = :feedback_category_organizaton_id';
+	        $criteria->params = array(':feedback_category_organizaton_id' => Yii::app()->user->getState('org_id'));
+
 		$criteria->compare('feedback_category_master_id',$this->feedback_category_master_id);
 		$criteria->with = array('Rel_org_feedback');  /// Note: Define relation with related table....
-		$criteria->compare('Rel_org_feedback.organization_name',$this->organization_name,true);  
+		$criteria->compare('Rel_org_feedback.organization_name',$this->organization_name,true);  // Note: Compare related table field with relation....
 		$criteria->compare('feedback_category_name',$this->feedback_category_name,true);
 		$criteria->compare('feedback_category_created_by',$this->feedback_category_created_by);
 		$criteria->compare('feedback_category_creation_date',$this->feedback_category_creation_date,true);

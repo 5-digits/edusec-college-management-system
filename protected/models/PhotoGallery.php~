@@ -39,7 +39,7 @@ class PhotoGallery extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('created_by, creation_date, photo_gallery_org_id', 'required'),
+			array('photo_path, created_by, creation_date, photo_gallery_org_id', 'required'),
 			array('created_by, photo_gallery_org_id', 'numerical', 'integerOnly'=>true,'message'=>''),
 			array('photo_path, photo_desc', 'length', 'max'=>50),
 			array('photo_path', 'file', 'types'=>'jpg, jpeg, gif, png' ,'allowEmpty'=>true ,'message'=>'invalid'),

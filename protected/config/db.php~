@@ -1,5 +1,5 @@
 <?php return array(
-			'connectionString'=>'mysql:host=localhost;dbname=open_source_blank',
+			'connectionString'=>'mysql:host=localhost;dbname=open_source_app',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => 'ubuntu',

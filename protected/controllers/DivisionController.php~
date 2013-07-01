@@ -213,5 +213,16 @@ class DivisionController extends RController
 			Yii::app()->end();
 		}
 	}
-
+/*	public function actiongetItemName()
+        {
+            $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_period_id',
+		 array(':academic_term_period_id'=>(int) $_REQUEST['Division']['academic_period_id']));
+                  
+            $data=CHtml::listData($data,'academic_term_id','academic_term_name');
+            foreach($data as $value=>$name)
+            {
+                echo CHtml::tag('option',
+                        array('value'=>$value),CHtml::encode($name),true);
+            }
+         }*/
 }

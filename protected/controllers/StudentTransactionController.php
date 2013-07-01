@@ -55,35 +55,7 @@ class StudentTransactionController extends RController
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
-	public function actionNew_view($id)
-	{
-		$this->render('new_view',array(
-			'model'=>$this->loadModel($id),
-		));
-	}
 
-	public function actionFinal_view($id)
-	{
-		$test=new StudentDocsTrans;
-		$docs_model=new StudentDocsTrans('mysearch');
-		$stu_record=new StudentAcademicRecordTrans('mysearch');
-		$studentfeedback=new FeedbackDetailsTable('mysearch');
-		$docs_model->unsetAttributes();  // clear any default values
-		$stu_record->unsetAttributes();  // clear any default values
-		if(isset($_GET['StudentDocsTrans']))
-			$docs_model->attributes=$_GET['StudentDocsTrans'];
-		
-		if(isset($_GET['StudentAcademicRecordTrans']))
-			$stu_record->attributes=$_GET['StudentAcademicRecordTrans'];
-
-		if(isset($_GET['FeedbackDetailsTable']))
-			$studentfeedback->attributes=$_GET['FeedbackDetailsTable'];
-		
-
-		$this->render('final_view',array(
-			'model'=>$this->loadModel($id),'docs_model'=>$docs_model,'test'=>$test,'stu_record'=>$stu_record,'studentfeedback'=>$studentfeedback,
-		));
-	}
 
 	/**
 	 * Creates a new model.

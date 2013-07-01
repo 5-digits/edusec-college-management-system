@@ -139,6 +139,15 @@ class User extends CActiveRecord
 		$criteria->with = array('rel_user_organization');  /// Note: Define relation with related table....
 		$criteria->compare('rel_user_organization.organization_name',$this->organization_name,true);  // Note: Compare related table
 
+		
+
+/*
+		$criteria->condition ="user_organization_id = :user_organization_id && user_type = :usertype1";
+		$criteria->params = array (
+		':user_organization_id' => Yii::app()->user->getState('org_id'),
+		':usertype1'=>'admin',
+		);*/
+
 
 		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('user_organization_email_id',$this->user_organization_email_id,true);

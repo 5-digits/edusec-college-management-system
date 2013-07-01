@@ -1693,7 +1693,672 @@ class ExportToPDFExcelController extends RController
 	    );
 	}		
 	
+//===============MIS Report===============
 
+
+//===============Inward Report===============
+	 public function actionInwardExportToPdf() 
+	 {
+		if(isset($_SESSION['inward_records']))
+               	{
+		 	$d = $_SESSION['inward_records'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/inward/expenseGridtoReport', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('Inward Report','Inward.pdf',$html);
+	
+	}
+	public function actionInwardExportToExcel()
+	{
+	    	$this->toExcel($_SESSION['inward_records'],
+		array(
+			'invoice_description',
+			'company_name',
+			'invoice_no_dc',
+			'rel_department.department_name::Department',
+			'invoice_date',
+			'receiver_name',
+			'received_date',
+			'rel_organization.organization_name',
+		),
+		'Inward-Data',
+		array(
+		    'creator' => 'Rudrasoftech',
+		),
+		'Excel2007'
+	    );
+	}
+
+//===============Assets Report===============
+	public function actionAssetsExportToPdf() 
+	{
+		if(isset($_SESSION['asset_data']))
+               	{
+		 	$d = $_SESSION['asset_data'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/assets/exportGridtoReport', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('Asset Report','Asset.pdf',$html);
+	}
+	public function actionAssetsExportToExcel()
+	{
+		$this->toExcel($_SESSION['asset_data'],
+		array(
+			'invoice_description',
+			'company_name',
+			'invoice_no_dc',
+			'invoice_date',
+			'received_date',
+			'rel_department.department_name::Department',
+			'rel_organization.organization_name',
+		),
+		'Asset File',
+		array(
+		    'creator' => 'Rudrasoftech',
+		),
+		'Excel2007'
+	    );
+	}
+
+//===============Visitor===============
+	public function actionVisitorPassExportToPdf() 
+	{
+             	if(isset($_SESSION['visitor_data']))
+               	{
+			$d = $_SESSION['visitor_data'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/visitorPass/exportGridtoReport', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('Visitor Report','Visitor.pdf',$html);
+	}
+	public function actionVisitorPassExportToExcel()
+	{
+		$this->toExcel($_SESSION['visitor_data'],
+		array(
+			'pass_no',
+			//'date_format(in_date_time,"d-m-Y H:i:S")::DateTime',
+			//'date("d-m-Y H:i:S",strtotime(in_date_time))',
+			'in_date_time',
+			'visitor_name',
+			'contact_person',
+			'purpose',
+			'Rel_vistor_dep.department_name::Department',
+			'address',
+			'company_represented',
+			'vehicle_no',
+			'no_of_persons',
+			'remark',
+			'age',
+			'gender',
+			'out_time',
+			'batch_no',
+			'item_carring',
+			'Rel_vistor_org.organization_name::Organization',
+		),
+		'Visitor File',
+		array(
+		    'creator' => 'RudraSoftech',
+		),
+		'Excel2007'
+	    );
+	}
+	public function actionVisitortotalPassExportToPdf() 
+	{
+             	if(isset($_SESSION['total_visitor']))
+               	{
+			$d = $_SESSION['total_visitor'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/visitorPass/exportGridtoReporttotal', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('Total Visitor Report','TotalVisitor.pdf',$html);
+	}
+	public function actionVisitortotalPassExportToExcel()
+	{
+		$this->toExcel($_SESSION['total_visitor'],
+		array(
+			'pass_no',
+			'visitor_name',
+			'contact_person',
+			'purpose',
+			'in_date_time',
+			//'date_format(in_date_time,"d-m-Y H:i:S")::DateTime',
+			//'date("d-m-Y H:i:S",strtotime(in_date_time))::DateTime',
+			'Actual_Out_Time',
+			'Rel_vistor_org.organization_name::Organization',
+		),
+		'Visitor File',
+		array(
+		    'creator' => 'RudraSoftech',
+		),
+		'Excel2007'
+	    );
+	}
+	
+//===============Subject Master ===============
+	public function actionSubjectMasterExportToPdf() 
+	{
+             	if(isset($_SESSION['subject_data']))
+               	{
+		 	$d = $_SESSION['subject_data'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+		$html = $this->renderPartial('/subjectMaster/exportGridtoReport', array(
+			'model'=>$model,
+		), true);
+		
+		$this->exporttopdf('Subject Report','Subject.pdf',$html);
+		
+	}
+	public function actionSubjectviewExportToPdf() 
+	{
+	   	$session=new CHttpSession;
+	   	$session->open();
+		Yii::import('application.extensions.tcpdf.*');
+		require_once('tcpdf/tcpdf.php');
+		require_once('tcpdf/config/lang/eng.php');
+		$html = $this->renderPartial('/subjectMaster/exportGridtoReportview', array(
+			'id'=>$_REQUEST['id'],
+		), true);
+		//die($html);
+		ob_clean();
+		$pdf = new TCPDF();
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor(Yii::app()->name);
+		$pdf->SetTitle('Particular Subject  Report');
+		$pdf->SetSubject('Particular Subject  Report');
+		$pdf->SetKeywords('example, text, report');
+		$pdf->SetHeaderData('', 0, "Particular Subject  Report", '');
+		//$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, "Example Report by ".Yii::app()->name, "");
+		$pdf->setHeaderFont(Array('helvetica', '', 8));
+		$pdf->setFooterFont(Array('helvetica', '', 6));
+		$pdf->SetMargins(15, 18, 15);
+		$pdf->SetHeaderMargin(5);
+		$pdf->SetFooterMargin(10);
+		$pdf->SetAutoPageBreak(TRUE, 15);
+		$pdf->SetFont('dejavusans', '', 7);
+		$resolution= array(150, 150);
+               $pdf->AddPage('P', $resolution);
+		$pdf->writeHTML($html, true, false, true, false, '');
+		$pdf->LastPage();
+		$pdf->Output("Particular Subject.pdf", "I");
+		$html = $this->renderPartial('/subjectMaster/exportGridtoReportview', array(
+		    'id'=>$_REQUEST['id'],
+		), true);
+        
+		$this->exporttopdf('Particular Subject  Report','ParticularSubject.pdf',$html);
+	}
+	public function actionSubjectMasterviewExportToExcel()
+	{
+		$id=$_REQUEST['id'];
+		$session=new CHttpSession;
+	   	$session->open();
+		Yii::app()->request->sendFile(date('YmdHis').'.xlsx',
+                           $this->renderPartial('/subjectMaster/exportGridtoReportview', array(
+                              'id'=>$_REQUEST['id'],
+                              
+                           ), true)
+                       );	
+		Yii::app()->request->sendFile(date('YmdHis').'.xlsx',
+		                   $this->renderPartial('/subjectMaster/exportGridtoReportview', array(
+		                      'id'=>$_REQUEST['id'],
+		                     
+		                   ), true)
+		               );    
+	}
+	public function actionSubjectMasterExportToExcel()
+	{
+		
+		$this->toExcel($_SESSION['subject_data'],
+		array(
+			'subject_master_name',
+			'subject_master_code',
+			'subject_master_alias',
+			'Rel_sub_type.subject_type_name',
+			'Rel_branch_id.branch_name::Branch Name',
+			'Rel_aca_term_name_id.academic_term_name',
+			'Rel_aca_term_period_id.academic_term_period',
+			'rel_user_id.user_organization_email_id::Created By',
+			//'subject_master_updated_date',	
+			'Rel_org_id.organization_name::Organization',	
+		),
+		'Subject_File',
+		array(
+		    'creator' => 'RudraSoftech',
+		),
+		'Excel2007'
+	    );
+	}
+
+//===============Subject Syllabus===============
+
+	public function actionSubjectSyllabusExportToPdf() 
+	{
+		if(isset($_SESSION['syllabus_data']))
+               	{
+		 	$d = $_SESSION['syllabus_data'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/subjectSyllabus/exportGridtoReport', array(
+			'syllabusmodel'=>$model
+		), true);
+		
+		$this->exporttopdf('Syllabus Report','Syllabus.pdf',$html);
+	}
+
+	public function actionSubjectSyllabusExportToExcel()
+	{
+		$this->toExcel($_SESSION['syllabus_data'],
+		array(
+			'sub_id',
+			'topic_name',
+			'topic_description',
+			'hours',
+			'actual_duration',
+			'subject_syllabus_type',
+			'teaching_method',
+			'start_date',
+			'end_date',
+			'duration',
+			'actual_start_date',
+			'actual_end_date',
+			'actual_duration',
+			'actual_remarks',
+			'deliver_topic',
+			'rel_subuser_id.user_organization_email_id::Created By',
+			//'created_date',
+			
+			
+		),
+		'Syllabus File',
+		array(
+		    'creator' => 'RudraSoftech',
+		),
+		'Excel2007'
+	    );
+	}
+	
+//===============Subject TextBook===============
+
+	public function actionSubjectTextbookExportToPdf() 
+	{
+             	if(isset($_SESSION['tbook']))
+               	{
+			$d = $_SESSION['tbook'];
+		 	$model = array();
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/subjectTextbook/exportGridtoReport', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('Text Book Report','TextBook.pdf',$html);
+	}
+	public function actionSubjectTextbookExportToExcel()
+	{
+		$this->toExcel($_SESSION['tbook'],
+		array(
+			'rel_tbook_sub.subject_master_name',
+			'isbn_no',
+			'title',
+			'subject_textbook_type',
+			'rel_tbookuser_id.user_organization_email_id::Created By',
+			//'created_date',
+			
+			
+		),
+		'Text Book File',
+		array(
+		    'creator' => 'RudraSoftech',
+		),
+		'Excel2007'
+	    );
+	}
+//===============Subject Referencebook===============
+
+	
+	public function actionSubjectRefbookExportToPdf() 
+	{
+             	if(isset($_SESSION['rbook']))
+               	{
+		 	$d = $_SESSION['rbook'];
+		 	$model = array();
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/subjectRefbook/exportGridtoReport', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('Reference Book Report','ReferenceBook.pdf',$html);
+	}
+	public function actionSubjectRefbookExportToExcel()
+	{
+		$this->toExcel($_SESSION['rbook'],
+		array(
+			'rel_rbook_sub.subject_master_name',
+			'isbn_no',
+			'title',
+			'subject_refbook_type',
+			'rel_rbookuser_id.user_organization_email_id::Created By',	
+		),
+		'Reference Book File',
+		array(
+		    'creator' => 'RudraSoftech',
+		),
+		'Excel2007'
+	    );
+	}
+//===============Subject Guidelines===============
+
+	public function actionSubjectGuidelinesExportToPdf() 
+	{
+             	if(isset($_SESSION['guideline']))
+               	{
+		 	$d = $_SESSION['guideline'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/subjectGuidelines/exportGridtoReport', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('Subject Guidelines Report','SubjectGuidelines.pdf',$html);
+	}
+
+	public function actionSubjectGuidelinesExportToExcel()
+	{
+		$this->toExcel($_SESSION['guideline'],
+		array(
+			'rel_tscheme_sub.subject_master_name',
+			'guideline',
+			'rel_guidelinesuser_id.user_organization_email_id::Created By',
+			//'creation_date',
+			
+			
+		),
+		'Guideline File',
+		array(
+		    'creator' => 'RudraSoftech',
+		),
+		'Excel2007'
+	    );
+	}
+
+//===============Subject Teaching Scheme===============
+
+	public function actionSubjectTeachingSchemaExportToPdf() 
+	{
+            	if(isset($_SESSION['teaching_data']))
+               	{
+		 	$d = $_SESSION['teaching_data'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/subjectTeachingSchema/exportGridtoReport', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('Teaching Schema Report','TeachingSchema.pdf',$html);
+	}
+	
+	public function actionSubjectTeachingSchemaExportToExcel()
+	{
+		$this->toExcel($_SESSION['teaching_data'],
+		array(
+			'rel_tscheme_sub.subject_master_name',
+			'theory_credit',
+			'tutorial_credit',
+			'practical_credit',
+			'rel_teachinguser_id.user_organization_email_id::Created By',
+			//'creation_date',
+			
+		),
+		'Teaching File',
+		array(
+		    'creator' => 'RudraSoftech',
+		),
+		'Excel2007'
+	    );
+	}
+	
+
+//===============Subject Examination Marks===============
+	
+	public function actionSubjectExaminationMarkExportToPdf() 
+	{
+             	if(isset($_SESSION['examination']))
+               	{
+		 	$d = $_SESSION['examination'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/subjectExaminationMark/exportGridtoReport', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('Examination Mark Report','ExaminationMark.pdf',$html);
+		
+	}
+	public function actionSubjectExaminationMarkExportToExcel()
+	{
+		$this->toExcel($_SESSION['examination'],
+		array(
+			
+			'rel_exam_mark.subject_master_name',
+			'university_mark',
+			'midsem_mark',
+			'practical_mark',
+			'rel_examuser_id.user_organization_email_id::Created By',
+			//'creation_date',
+		),
+		'Examination File',
+		array(
+		    'creator' => 'RudraSoftech',
+		),
+		'Excel2007'
+	    );
+	}
+	
+
+//===============Outward===============
+
+	public function actionOutwardExportToPdf() 
+	{
+             	if(isset($_SESSION['outward_data']))
+               	{
+		 	$d = $_SESSION['outward_data'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/outward/exportGridtoReport', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('Outward Report','Outward.pdf',$html);
+		
+	}
+	public function actionOutwardExportToExcel()
+	{
+		$this->toExcel($_SESSION['outward_data'],
+		array(
+			'invoice_description',
+			'company_name',
+			'invoice_no_dc',
+			'rel_department.department_name::Department Name',
+			'invoice_date',
+			'sending_date',
+			'receiver_name',
+			
+			'photo',
+			'document',
+			'document_desc',
+			'orgName.organization_name',
+			'no_of_packets',
+			'sender_name',
+		),
+		'Outward File',
+		array(
+		    'creator' => 'RudraSoftech',
+		),
+		'Excel2007'
+	    );
+	}
 
 //===============user===============
 	public function actionuserExportToExcel()

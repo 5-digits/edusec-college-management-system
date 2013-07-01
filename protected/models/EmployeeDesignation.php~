@@ -47,8 +47,8 @@ class EmployeeDesignation extends CActiveRecord
 			array('employee_designation_name, employee_designation_organization_id, employee_designation_created_by, employee_designation_created_date,employee_designation_level', 'required','message'=>''),
 			array('employee_designation_organization_id, employee_designation_level, employee_designation_created_by', 'numerical', 'integerOnly'=>true,'message'=>''),
 			array('employee_designation_name', 'length', 'max'=>60),
-			array('employee_designation_name', 'checkemployeedesignation'),
-			array('employee_designation_name','CRegularExpressionValidator','pattern'=>'/^[a-zA-Z\/ ]+([.][a-zA-Z\/ ]*(.))*$/','message'=>''),
+			array('employee_designation_name', 'unique'),
+			array('employee_designation_name','CRegularExpressionValidator','pattern'=>'/^[a-zA-Z&. ]+([ -][a-zA-Z. ]+)*$/','message'=>''),
 			array('employee_designation_level','CRegularExpressionValidator','pattern'=>'/^([0-9]+)$/','message'=>''),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -95,9 +95,6 @@ class EmployeeDesignation extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->condition = 'employee_designation_organization_id = :employee_designation_org_id';
-	        $criteria->params = array(':employee_designation_org_id' => Yii::app()->user->getState('org_id'));
-
 		$criteria->compare('employee_designation_id',$this->employee_designation_id);
 		$criteria->compare('employee_designation_name',$this->employee_designation_name,true);
 		$criteria->compare('employee_designation_organization_id',$this->employee_designation_organization_id);
@@ -133,7 +130,7 @@ class EmployeeDesignation extends CActiveRecord
     private static function loadItems()
     {
         self::$_items=array();
-        $models=self::model()->findAll('employee_designation_organization_id='.Yii::app()->user->getState('org_id'));
+        $models=self::model()->findAll();
         foreach($models as $model)
             self::$_items[$model->employee_designation_id]=$model->employee_designation_name;
     }

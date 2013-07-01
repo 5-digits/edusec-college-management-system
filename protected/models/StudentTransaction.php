@@ -58,11 +58,6 @@ class StudentTransaction extends CActiveRecord
 		return array(
 			array('student_transaction_branch_id, student_academic_term_period_tran_id, student_academic_term_name_id, student_transaction_division_id,student_transaction_student_photos_id, student_transaction_quota_id, student_transaction_shift_id', 'required','message'=>''),
 
-			//array('student_transaction_user_id, student_transaction_student_id, student_transaction_branch_id, student_transaction_category_id, student_transaction_organization_id, student_transaction_student_address_id, student_transaction_nationality_id, student_transaction_quota_id, student_transaction_religion_id, student_transaction_languages_known_id, student_transaction_student_photos_id, student_transaction_division_id, student_academic_term_period_tran_id, student_academic_term_name_id,student_transaction_detain_student_flag, student_transaction_shift_id,','required','message'=>'','on'=>'update'),
-
-
-
-
 			array('student_transaction_user_id, student_transaction_student_id, student_transaction_branch_id, student_transaction_category_id, student_transaction_organization_id, student_transaction_student_address_id, student_transaction_nationality_id, student_transaction_quota_id, student_transaction_religion_id, student_transaction_languages_known_id, student_transaction_student_photos_id, student_transaction_division_id, student_academic_term_period_tran_id, student_academic_term_name_id,student_transaction_detain_student_flag, student_transaction_shift_id, student_transaction_batch_id', 'numerical', 'integerOnly'=>true,'message'=>''),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -216,9 +211,7 @@ class StudentTransaction extends CActiveRecord
 		$criteria->compare('Rel_Stud_Info.student_dtod_regular_status',$this->student_dtod_regular_status,true);
 		
 		$criteria->compare('Rel_Division.division_name',$this->division_name,true);
-		//$criteria->compare('Rel_Quota.quota_name',$this->quota_name,true);
-		//$criteria->compare('Rel_student_academic_terms_period_name.academic_term_period',$this->academic_term_period,true);
-		//$criteria->compare('Rel_student_academic_terms_name.academic_term_name',$this->academic_term_name,true);
+		
 		$criteria->compare('Rel_Status.status_name',$this->status_name,true);
 		$criteria->compare('Rel_Stud_Info.student_mobile_no',$this->student_mobile_no,true);
 		$criteria->compare('Rel_Stud_Info.student_email_id_1',$this->student_email_id_1,true);
@@ -235,66 +228,7 @@ class StudentTransaction extends CActiveRecord
 	} 
 
 	
-	public function leftStudentSearch()
-	{
-		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
 
-		$criteria=new CDbCriteria;
-
-		$criteria->with = array('Rel_Branch', 'Rel_Status' ,'Rel_Stud_Info', 'Rel_Division', 'Rel_Quota', 'Rel_student_academic_terms_period_name', 'Rel_student_academic_terms_name','Rel_language','Rel_user');
-
-
-		$criteria->condition ="student_transaction_detain_student_flag = :student_transaction_detain_student_flag   || student_transaction_detain_student_flag = :rejoin_student";
-
-		$criteria->params = array (
-		':student_transaction_detain_student_flag'=>5,
-		':rejoin_student'=>6,
-		
-		);
-		$criteria->compare('student_transaction_id',$this->student_transaction_id);
-		$criteria->compare('student_transaction_detain_student_flag',$this->student_transaction_detain_student_flag);
-		$criteria->compare('student_transaction_user_id',$this->student_transaction_user_id);
-		$criteria->compare('student_transaction_student_id',$this->student_transaction_student_id);
-		$criteria->compare('student_transaction_branch_id',$this->student_transaction_branch_id);
-		$criteria->compare('student_transaction_category_id',$this->student_transaction_category_id);
-		$criteria->compare('student_transaction_organization_id',$this->student_transaction_organization_id);
-		$criteria->compare('student_transaction_student_address_id',$this->student_transaction_student_address_id);
-		$criteria->compare('student_transaction_nationality_id',$this->student_transaction_nationality_id);
-		$criteria->compare('student_transaction_quota_id',$this->student_transaction_quota_id);
-		$criteria->compare('student_transaction_religion_id',$this->student_transaction_religion_id);
-		$criteria->compare('student_transaction_shift_id',$this->student_transaction_shift_id);
-		$criteria->compare('student_transaction_languages_known_id',$this->student_transaction_languages_known_id);
-		$criteria->compare('student_transaction_student_photos_id',$this->student_transaction_student_photos_id);
-		$criteria->compare('student_transaction_division_id',$this->student_transaction_division_id);
-		$criteria->compare('student_transaction_batch_id',$this->student_transaction_batch_id);
-		$criteria->compare('student_academic_term_period_tran_id',$this->student_academic_term_period_tran_id);
-
-		$criteria->compare('student_academic_term_name_id',$this->student_academic_term_name_id);
-
-		$criteria->compare('Rel_user.user_organization_email_id',$this->user_organization_email_id,true);
-		$criteria->compare('Rel_Branch.branch_name',$this->branch_name,true);
-		$criteria->compare('Rel_Stud_Info.student_first_name',$this->student_first_name,true);
-		$criteria->compare('Rel_Stud_Info.student_enroll_no',$this->student_enroll_no,true);
-		$criteria->compare('Rel_Stud_Info.student_roll_no',$this->student_roll_no,true);
-		$criteria->compare('Rel_Stud_Info.student_middle_name',$this->student_middle_name,true);
-		$criteria->compare('Rel_Stud_Info.student_last_name',$this->student_last_name,true);
-		
-		$criteria->compare('Rel_Division.division_name',$this->division_name,true);
-		$criteria->compare('Rel_Quota.quota_name',$this->quota_name,true);
-		$criteria->compare('Rel_student_academic_terms_period_name.academic_term_period',$this->academic_term_period,true);
-		$criteria->compare('Rel_student_academic_terms_name.academic_term_name',$this->academic_term_name,true);
-		$criteria->compare('Rel_Status.status_name',$this->status_name,true);
-
-		$left = new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-			'sort'=>array(
-				    'defaultOrder'=>'student_transaction_id DESC',
-				),
-		));
-		 $_SESSION['left'] = $left;
-		return $left;
-	}
 		
 	public function findcity($id)
 	{
