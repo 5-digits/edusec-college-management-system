@@ -22,6 +22,34 @@ class SiteController extends Controller
 			),
 		);
 	}
+
+	public function filters()
+	{
+		return array(
+			'blockuser + login', //check to ensure valid project context
+		);
+	}
+
+
+	public function filterBlockuser($filterChain)
+	{
+		$count = User::model()->count();
+		$org_count =  Organization::model()->count();
+		if($count == 0 && $org_count ==  0) {
+			$this->redirect(array('site/welcome'));
+		}
+		if($org_count !=  0 &&  $count == 0) {
+			$org_data = Yii::app()->db->createCommand()
+                                ->select('organization_id')
+                                ->from('organization')
+                                ->queryRow();
+			//print_r($org_data); exit;
+
+			$this->redirect(array('createUser','id'=>$org_data['organization_id']));
+		}
+
+			$filterChain->run();
+	}
 	
 
 	public function actionWelcome()
