@@ -58,7 +58,7 @@ class Organization extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('organization_name, organization_created_by, organization_creation_date,city,state,country, address_line1,pin, phone, email, no_of_semester','required','message'=>''),
-			array('organization_created_by,pin,city,state,country,phone', 'numerical', 'integerOnly'=>true , 'message'=>''),
+			array('organization_created_by,pin,phone', 'numerical', 'integerOnly'=>true , 'message'=>''),
 			array('organization_name, organization_name,address_line1,fax_no,address_line2', 'length', 'max'=>50, 'message'=>''),
 			array('fax_no', 'length', 'max'=>10, 'message'=>''),
 			//array('organization_name','required','message'=>'','on'=>'update'),
@@ -72,7 +72,7 @@ class Organization extends CActiveRecord
 			array('email','CRegularExpressionValidator','pattern'=>'/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]+)$/','message'=>''),
 			array('website','url', 'message'=>''),
 			array('organization_name','CRegularExpressionValidator','pattern'=>'/^[a-zA-Z& ]+([-][a-zA-Z ]+)*$/','message'=>''),
-			array('address_line1,address_line2','CRegularExpressionValidator','pattern'=>'/^[a-zA-Z0-9& ]+([-][a-zA-Z0-9 ]+)*$/','message'=>''),
+
 			array('fax_no','CRegularExpressionValidator','pattern'=>'/^[0-9]+([0-9]+)*$/','message'=>''),
 			 array('email', 'ext.Email'),
 			 array('Website','safe'),

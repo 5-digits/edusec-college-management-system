@@ -58,6 +58,14 @@ class SiteController extends Controller
 
 	public function actionWelcome()
 	{
+		$reg_details = Registration::model()->count(); 
+		if($reg_details == 0) {
+			$this->redirect(array('registration/create'));
+		}
+		$org_count =  Organization::model()->count();
+		if($org_count ==  0) {
+			$this->redirect(array('site/createOrg'));
+		}
 		$this->layout='select_company_main';		
 		$this->render('wel_come',array());
 	}
@@ -123,6 +131,10 @@ class SiteController extends Controller
 
 	public function actionCreateOrg()
 	{
+		$reg_details = Registration::model()->count(); 
+		if($reg_details == 0) {
+			$this->redirect(array('registration/create'));
+		}
 		$this->layout='select_company_main';
 		$model=new Organization;
 		
@@ -171,7 +183,6 @@ class SiteController extends Controller
 			
 			if($model->save(false))
 				$this->redirect(array('site/redirectLogin'));
-				//$this->redirect(array('admin'));
 		}
 
 		$this->render('create_org',array(
@@ -330,9 +341,24 @@ class SiteController extends Controller
 				if($model->validate() && $model->login())
 				{
 					Yii::app()->user->setState('org_id',1);
+
+					$loginuser = Yii::app()->user->id;
+					$emplogin = EmployeeTransaction::model()->findByAttributes(array('employee_transaction_user_id'=>$loginuser));
+					$studlogin = StudentTransaction::model()->findByAttributes(array('student_transaction_user_id'=>$loginuser));
+					if($studlogin)
+					{
+						Yii::app()->user->setState('stud_id',$studlogin->student_transaction_id);
+					}
+					if($emplogin)
+					{
+						Yii::app()->user->setState('emp_id',$emplogin->employee_transaction_id);
+					}
+
+					$login->user_id = Yii::app()->user->id;
 					$login->status=1;
 					$login->log_in_time=new CDbExpression('NOW()');
 					$login->user_ip_address=$_SERVER['REMOTE_ADDR'];
+					$login->login_organization_id=Yii::app()->user->getState('org_id');
 					$login->save();
 					$this->redirect(array('site/newdashboard'));
 				}

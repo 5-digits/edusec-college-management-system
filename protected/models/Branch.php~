@@ -103,8 +103,6 @@ class Branch extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		//$criteria->with = array('Rel_Branch_Tag');  /// Note: Define relation with related table....
-		//$criteria->compare('Rel_Branch_Tag.branch_tag_name',$this->branch_tag_name,true);  // Note: Compare related table field with relation....
 		$criteria->compare('branch_tag_id',$this->branch_tag_id,true);
 		$criteria->compare('branch_id',$this->branch_id);
 		$criteria->compare('branch_name',$this->branch_name,true);
@@ -141,6 +139,31 @@ class Branch extends CActiveRecord
         $models=self::model()->findAll();
         foreach($models as $model)
             self::$_items[$model->branch_id]=$model->branch_name;
+    }
+
+/* for code */	
+private static $_bcode=array();
+
+        public static function code()
+        {
+            if(isset(self::$_bcode))
+                self::loadItems1();
+            return self::$_bcode;
+        }
+
+    public static function item1($code)
+    {
+        if(!isset(self::$_bcode))
+            self::loadItems1();
+        return isset(self::$_bcode[$code]) ? self::$_bcode[$code] : false;
+    }
+
+    private static function loadItems1()
+    {
+        self::$_bcode=array();
+        $models=self::model()->findAll(array('condition'=>'branch_organization_id='.Yii::app()->user->getState('org_id')));
+        foreach($models as $model)
+            self::$_bcode[$model->branch_id]=$model->branch_alias;
     }
 
 }

@@ -43,11 +43,7 @@ $this->breadcrumbs=array(
 		?>
 	</div>
 	-->
-	<div id="divlink5" class="info-link">
-		<?php
-		echo CHtml::link('Certificates',array('studentCertificateDetailsTable/StudentCertificate'),array('title'=>'My Certificates', 'id'=>'link5'));
-		?>
-	</div>
+	
 	<div id="divlink5" class="info-link">
 		<?php
 		echo CHtml::link('Documents',array('studentDocsTrans/StudentDocs'),array('title'=>'My Documents','id'=>'link6'));

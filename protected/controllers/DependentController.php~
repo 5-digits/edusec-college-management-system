@@ -91,7 +91,30 @@ class DependentController extends RController
 		
 
 	}
+	public function actionAutoCompleteLookup()
+	{
+	       if(Yii::app()->request->isAjaxRequest && isset($_GET['q']))
+	       {
+		    /* q is the default GET variable name that is used by
+		    / the autocomplete widget to pass in user input
+		    */
+		$org = Yii::app()->user->getState('org_id');
+		  $name = $_GET['q']; 
+		            // this was set with the "max" attribute of the CAutoComplete widget
+		  $limit = min($_GET['limit'], 50); 
 	
+		 $userArray = EmployeeInfo::model()->findAll(array(
+			'condition' => 't.employee_first_name LIKE :name and employee_info_transaction_id IN(select employee_transaction_id from employee_transaction where employee_transaction_organization_id ='.$org.')',
+'params' => array(':name' => "%$name%"),
+));
+		  $returnVal = '';
+		  foreach($userArray as $userAccount)
+		  {
+		     $returnVal .= $userAccount->getAttribute('employee_first_name')." ".$userAccount->getAttribute('employee_middle_name')." ".$userAccount->getAttribute('employee_last_name').'|'.$userAccount->getAttribute('employee_info_transaction_id')."\n";
+		  }
+		  echo $returnVal;
+	       }
+	 }
 	public function actiongettimetablesubjects()
         {
 		$sub = array();
@@ -257,7 +280,7 @@ $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_p
 		    
 		    $data = State::model()->findAll(array('condition'=>'country_id='.(int) $_REQUEST['EmployeeAddress']['employee_address_c_country']));
 		    $data = CHtml::listData($data,'state_id','state_name');
-		    //echo "<option value=''>Select State</option>";
+		    echo "<option value=''>Select State</option>";
 		    foreach($data as $value=>$name)
 			{
 		        echo CHtml::tag('option', 
@@ -282,7 +305,7 @@ $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_p
 		    
 		    $data = State::model()->findAll('country_id=:country_id', array(':country_id'=>(int) $_REQUEST['EmployeeAddress']['employee_address_p_country']));
 		    $data = CHtml::listData($data,'state_id','state_name');
-		    //echo "<option value=''>Select State</option>";
+		    echo "<option value=''>Select State</option>";
 		    foreach($data as $value=>$name)
 			{
 		        echo CHtml::tag('option', 
@@ -835,19 +858,13 @@ $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_p
 				
 		    //$data=CHtml::listData($data,'division_id','division_code');
 
-		    if(empty($data))
-		    {
-			//echo CHtml::tag('option',CHtml::encode(),false);
-			echo CHtml::tag('option',
-				        array('value'=>null),CHtml::encode('No More Division'),true);
-		    }
-		    else{
+		  
 			    foreach($data as $value=>$name)
 			    {
 				echo CHtml::tag('option',
 				        array('value'=>$value),CHtml::encode($name),true);
 			    }
-		    }
+		    
         }
 
 	
@@ -890,7 +907,7 @@ $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_p
 	public function actionGetattendancediv()
         {
             $data=  Division::model()->findAll('academic_name_id=:sem_id AND branch_id =:branchid',
-		 array(':sem_id'=>(int) $_REQUEST['sem'],'branchid'=>$_REQUEST['branch_name']));
+		 array(':sem_id'=>(int) $_REQUEST['Attendence']['sem_name_id'],'branchid'=>$_REQUEST['Attendence']['branch_id']));
                   
             $data=CHtml::listData($data,'division_id','division_code');
             foreach($data as $value=>$name)

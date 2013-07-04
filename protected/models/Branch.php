@@ -141,4 +141,29 @@ class Branch extends CActiveRecord
             self::$_items[$model->branch_id]=$model->branch_name;
     }
 
+/* for code */	
+private static $_bcode=array();
+
+        public static function code()
+        {
+            if(isset(self::$_bcode))
+                self::loadItems1();
+            return self::$_bcode;
+        }
+
+    public static function item1($code)
+    {
+        if(!isset(self::$_bcode))
+            self::loadItems1();
+        return isset(self::$_bcode[$code]) ? self::$_bcode[$code] : false;
+    }
+
+    private static function loadItems1()
+    {
+        self::$_bcode=array();
+        $models=self::model()->findAll(array('condition'=>'branch_organization_id='.Yii::app()->user->getState('org_id')));
+        foreach($models as $model)
+            self::$_bcode[$model->branch_id]=$model->branch_alias;
+    }
+
 }

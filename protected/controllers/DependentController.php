@@ -280,7 +280,7 @@ $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_p
 		    
 		    $data = State::model()->findAll(array('condition'=>'country_id='.(int) $_REQUEST['EmployeeAddress']['employee_address_c_country']));
 		    $data = CHtml::listData($data,'state_id','state_name');
-		    //echo "<option value=''>Select State</option>";
+		    echo "<option value=''>Select State</option>";
 		    foreach($data as $value=>$name)
 			{
 		        echo CHtml::tag('option', 
@@ -305,7 +305,7 @@ $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_p
 		    
 		    $data = State::model()->findAll('country_id=:country_id', array(':country_id'=>(int) $_REQUEST['EmployeeAddress']['employee_address_p_country']));
 		    $data = CHtml::listData($data,'state_id','state_name');
-		    //echo "<option value=''>Select State</option>";
+		    echo "<option value=''>Select State</option>";
 		    foreach($data as $value=>$name)
 			{
 		        echo CHtml::tag('option', 
@@ -410,7 +410,7 @@ $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_p
 		    
 		    $data = State::model()->findAll(array('condition'=>'country_id='.(int) $_REQUEST['StudentAddress']['student_address_c_country']));
 		    $data = CHtml::listData($data,'state_id','state_name');
-		    //echo "<option value=''>Select State</option>";
+		    echo "<option value=''>Select State</option>";
 		    foreach($data as $value=>$name)
 			{
 		        echo CHtml::tag('option', 
@@ -434,7 +434,7 @@ $data=  AcademicTerm::model()->findAll('academic_term_period_id=:academic_term_p
 		    
 		    $data = State::model()->findAll('country_id=:country_id', array(':country_id'=>(int) $_REQUEST['StudentAddress']['student_address_p_country']));
 		    $data = CHtml::listData($data,'state_id','state_name');
-		    //echo "<option value=''>Select State</option>";
+		    echo "<option value=''>Select State</option>";
 		    foreach($data as $value=>$name)
 			{
 		        echo CHtml::tag('option', 

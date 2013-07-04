@@ -1,3 +1,10 @@
+<style>
+#registration-form label {
+  width: 100px !important;
+}
+
+
+</style>
 <div class="form">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
@@ -11,19 +18,19 @@
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'first_name'); ?>
-		<?php echo $form->textField($model,'first_name',array('size'=>50,'maxlength'=>50)); ?><span class="status">&nbsp;</span>
+		<?php echo $form->textField($model,'first_name',array('size'=>15,'maxlength'=>50)); ?><span class="status">&nbsp;</span>
 		<?php echo $form->error($model,'first_name'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'last_name'); ?>
-		<?php echo $form->textField($model,'last_name',array('size'=>50,'maxlength'=>50)); ?><span class="status">&nbsp;</span>
+		<?php echo $form->textField($model,'last_name',array('size'=>15,'maxlength'=>50)); ?><span class="status">&nbsp;</span>
 		<?php echo $form->error($model,'last_name'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'email'); ?>
-		<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>100)); ?>
+		<?php echo $form->textField($model,'email',array('size'=>30,'maxlength'=>100)); ?>
 <span class="status">&nbsp;</span>
 		<?php echo $form->error($model,'email'); ?>
 	</div>
@@ -42,7 +49,7 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Register'); ?>
+		<?php echo CHtml::submitButton('Register', array('class'=>'submit')); ?>
 	</div>
 
 <?php $this->endWidget(); ?>

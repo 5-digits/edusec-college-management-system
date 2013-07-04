@@ -6,6 +6,6 @@ $this->breadcrumbs=array(
 
 ?>
 
-<h1>Register for access EduSec - College Management System</h1>
+<h1>Fill up following basic details to get access details</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

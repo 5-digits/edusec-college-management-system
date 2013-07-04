@@ -72,7 +72,6 @@ class Organization extends CActiveRecord
 			array('email','CRegularExpressionValidator','pattern'=>'/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]+)$/','message'=>''),
 			array('website','url', 'message'=>''),
 			array('organization_name','CRegularExpressionValidator','pattern'=>'/^[a-zA-Z& ]+([-][a-zA-Z ]+)*$/','message'=>''),
-			array('address_line1,address_line2','CRegularExpressionValidator','pattern'=>'/^[a-zA-Z0-9& ]+([-][a-zA-Z0-9 ]+)*$/','message'=>''),
 			array('fax_no','CRegularExpressionValidator','pattern'=>'/^[0-9]+([0-9]+)*$/','message'=>''),
 			 array('email', 'ext.Email'),
 			 array('Website','safe'),

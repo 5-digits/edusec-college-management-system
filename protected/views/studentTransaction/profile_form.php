@@ -244,7 +244,7 @@ $this->breadcrumbs=array(
  <div class="row">
 	<div class="row-column1">
         <?php echo $form->labelEx($model,'student_transaction_batch_id'); ?>
-        <?php if($model->student_transaction_batch_id!=null)
+        <?php if($model->student_transaction_batch_id!=0)
 		echo $model->Rel_Batch->batch_code; ?>	
 	</div>
 

@@ -782,7 +782,7 @@ CClientScript::POS_READY
 				if(!empty($address->employee_address_c_state))
 				echo $form->dropDownList($address,'employee_address_c_state', CHtml::listData(State::model()->findAll(array('condition'=>'country_id='.$address->employee_address_c_country)), 'state_id', 'state_name'),
 				array(
-				'prompt' => 'Select State',
+				//'prompt' => 'Select State',
 				'ajax' => array(
 				'type'=>'POST', 
 				'url'=>CController::createUrl('dependent/UpdateEmpCCities'), 

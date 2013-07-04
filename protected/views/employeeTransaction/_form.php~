@@ -256,35 +256,6 @@ CClientScript::POS_READY
 	<div id="divlink7" class="info-link">
 	<a href="#form7" id="link7">Experience</a>
 	</div>
-	
-	<?php 
-	//$emp_id = $_REQUEST['id'];
-	?>
-	<div id="divlink8" class="info-link">
-	<?php
-	echo CHtml::link('Leave Report',array('hrms/employeeLeaveApplication/leavereport', 'id'=>$emp_id),array('style'=>'text-decoration:none;color:white;','target'=>'_blank'));
-	?>
-	</div>
-	<div id="divlink8" class="info-link">
-	<?php
-	echo CHtml::link('Monthly Attendance',array('employee_attendence/Singlemonthattendence', 'id'=>$emp_id),array('style'=>'text-decoration:none;color:white;','target'=>'_blank'));
-	?>
-	</div>
-	<div id="divlink8" class="info-link">
-	<?php
-	echo CHtml::link('Salary Structure',array('hrms/employeeSalaryStructure/Employeesalaryhead', 'id'=>$emp_id),array('style'=>'text-decoration:none;color:white;','target'=>'_blank'));
-	?>
-	</div>
-	<div id="divlink8" class="info-link">
-	<?php
-	echo CHtml::link('Salary Slip',array('hrms/employeeSalaryStructure/Mysalaryslip', 'id'=>$emp_id),array('style'=>'text-decoration:none;color:white;','target'=>'_blank'));
-	?>
-	</div>
-	<div id="divlink8" class="info-link">
-	<?php
-	echo CHtml::link('Salary Report',array('hrms/employeeSalarySlip/Singleempsalaryreport', 'id'=>$emp_id),array('style'=>'text-decoration:none;color:white;','target'=>'_blank'));
-	?>
-	</div>
 </div>
 <?php echo $form->error($info,'employee_attendance_card_id'); ?>
 <div id="form1" class="info-form">
@@ -811,7 +782,7 @@ CClientScript::POS_READY
 				if(!empty($address->employee_address_c_state))
 				echo $form->dropDownList($address,'employee_address_c_state', CHtml::listData(State::model()->findAll(array('condition'=>'country_id='.$address->employee_address_c_country)), 'state_id', 'state_name'),
 				array(
-				'prompt' => 'Select State',
+				//'prompt' => 'Select State',
 				'ajax' => array(
 				'type'=>'POST', 
 				'url'=>CController::createUrl('dependent/UpdateEmpCCities'), 
@@ -821,7 +792,7 @@ CClientScript::POS_READY
 				else	
 				echo $form->dropDownList($address,'employee_address_c_state',array(),
 				array(
-				'prompt' => 'Select State',
+				//'prompt' => 'Select State',
 				'ajax' => array(
 				'type'=>'POST', 
 				'url'=>CController::createUrl('dependent/UpdateEmpCCities'), 

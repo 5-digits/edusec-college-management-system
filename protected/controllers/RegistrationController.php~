@@ -67,7 +67,8 @@ class RegistrationController extends Controller
 				$user = new User;
 				$auth_assign = new AuthAssignment;
 				$user->user_organization_email_id = $model->email;
-				$user->user_password=md5($model->email.$model->email);
+				$my_string = $this->rand_string( 7 );
+				$user->user_password=md5($my_string.$my_string);
 				$user->user_type='admin';
 				$user->user_created_by=1;
 				$user->user_creation_date=new CDbExpression('NOW()');
@@ -76,9 +77,9 @@ class RegistrationController extends Controller
 				{
 					$auth_assign->itemname = 'SuperAdmin';
 					$auth_assign->userid = $user->user_id;
-					$auth_assign->save(false); 
-					$request_url = 'http://www.rudrasoftech.com/register-script.php?first_name='.$model->first_name.'&last_name='.$model->last_name.'&email='.$model->email.'&country_code='.$model->country_code.'&mobile='.$model->mobile;
-		$response = $this->get_url($request_url);
+					$auth_assign->save(false);  
+					$request_url = 'http://www.rudrasoftech.com/register-script.php?first_name='.$model->first_name.'&last_name='.$model->last_name.'&email='.$model->email.'&country_code='.$model->country_code.'&mobile='.$model->mobile.'&pass='.$my_string;
+					$response = $this->get_url($request_url);
 					
 				}
 				
@@ -89,6 +90,18 @@ class RegistrationController extends Controller
 		$this->render('create',array(
 			'model'=>$model,
 		));
+	}
+
+	public function rand_string( $length ) {
+		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		$str = null;	
+
+		$size = strlen( $chars );
+		for( $i = 0; $i < $length; $i++ ) {
+			$str .= $chars[ rand( 0, $size - 1 ) ];
+		}
+
+		return $str;
 	}
 
 	/**

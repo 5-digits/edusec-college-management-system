@@ -6,7 +6,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Secure Education Management System',
+	'name'=>'College Management System',
 	
 	// preloading 'log' component
 	'preload'=>array('log'),
@@ -128,7 +128,7 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
-		*/
+		
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(

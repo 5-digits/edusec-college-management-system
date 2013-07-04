@@ -62,28 +62,14 @@ $dataProvider->getPagination()->setPageSize($pageSize);
 		'address_line1',
 //		'address_line2',
 				
-		array('name'=>'city',
-			'value'=>'City::model()->findByPk($data->city)->city_name',
-			'filter' =>CHtml::listData(City::model()->findAll(),'city_id','city_name'),
-
-		), 
-		array('name'=>'state',
-			'value'=>'State::model()->findByPk($data->state)->state_name',
-		'filter' =>CHtml::listData(State::model()->findAll(),'state_id','state_name'),
-
-		), 
-		array('name'=>'country',
-			'value'=>'Country::model()->findByPk($data->country)->name',
-			'filter' =>CHtml::listData(Country::model()->findAll(),'id','name'),
-
-		), 
+ 
 	
 /*		'city',
 		'state',
 		'country',
 //		'pin',
 //		 'phone',*/
-		 'website',
+//		 'website',
 //		'email',
 //		'taxno',
 		array(
