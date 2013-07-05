@@ -123,12 +123,7 @@ else
 		echo CHtml::link('User Management',array('/rights'),array('title'=>'User Management'));
 		?>
 	</div>
-	<div id="divlink4" class="info-link">
-		<?php
-		echo CHtml::link('Assign Company',array('assignCompanyUserTable/admin'),array('title'=>'Assigned Company User'));
-		?>
-	</div>
-	
+		
 </div>
 <?php
 }

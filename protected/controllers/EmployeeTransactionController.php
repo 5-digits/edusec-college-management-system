@@ -268,6 +268,15 @@ class EmployeeTransactionController extends RController
 	public function actionUpdateprofiletab2($id)
 	{
 		$emp_trans = EmployeeTransaction::model()->findByPk($id);
+		$ph_no = null;
+		$mo_no1 = null;
+		$mo_no2 = null; 
+		if($_POST['EmployeeInfo']['employee_guardian_phone_no'] !=null)
+		   $ph_no = $_POST['EmployeeInfo']['employee_guardian_phone_no'];
+		if($_POST['EmployeeInfo']['employee_guardian_mobile1'] !=null)
+		   $mo_no1 = $_POST['EmployeeInfo']['employee_guardian_mobile1'];
+		if($_POST['EmployeeInfo']['employee_guardian_mobile2'] !=null)
+		   $mo_no2 = $_POST['EmployeeInfo']['employee_guardian_mobile2'];
 		if(isset($_POST['EmployeeInfo']))
 		{
 		EmployeeInfo::model()->updateByPk($emp_trans-> 	employee_transaction_employee_id,array(
@@ -275,10 +284,10 @@ class EmployeeTransactionController extends RController
 			'employee_guardian_relation'=>$_POST['EmployeeInfo']['employee_guardian_relation'],
 			'employee_guardian_qualification'=>$_POST['EmployeeInfo']['employee_guardian_qualification'],
 			'employee_guardian_occupation'=>$_POST['EmployeeInfo']['employee_guardian_occupation'],
-			'employee_guardian_phone_no'=>$_POST['EmployeeInfo']['employee_guardian_phone_no'],
+			'employee_guardian_phone_no'=>$ph_no,
 			'employee_guardian_income'=>$_POST['EmployeeInfo']['employee_guardian_income'],
-			'employee_guardian_mobile1'=>$_POST['EmployeeInfo']['employee_guardian_mobile1'],
-			'employee_guardian_mobile2'=>$_POST['EmployeeInfo']['employee_guardian_mobile2'],
+			'employee_guardian_mobile1'=>$mo_no1,
+			'employee_guardian_mobile2'=>$mo_no2,
 			'employee_guardian_home_address'=>$_POST['EmployeeInfo']['employee_guardian_home_address'],
 			'employee_guardian_occupation_address'=>$_POST['EmployeeInfo']['employee_guardian_occupation_address'],
 			'employee_guardian_occupation_city'=>$_POST['EmployeeInfo']['employee_guardian_occupation_city'],

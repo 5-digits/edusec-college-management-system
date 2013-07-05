@@ -2198,7 +2198,54 @@ class ExportToPDFExcelController extends RController
 		'Excel2007'
 	    );
 	}
-	
+	public function actionreturnchequelistExportToPdf() 
+	{
+             	if(isset($_SESSION['returncheque']))
+               	{
+			$d = $_SESSION['returncheque'];
+			$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			else
+			{
+				$this->render('no_data_found',array('last_page'=>$_SERVER['HTTP_REFERER'],));
+				exit;			
+			}
+
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+              
+		$html = $this->renderPartial('/feesPaymentCheque/returnchequeGeneratePdf', array(
+			'model'=>$model
+		), true);
+		
+		$this->exporttopdf('ReturnChequeList Report','ReturnChequeList.pdf',$html);
+		
+	}
+	public function actionreturnchequelistExportToExcel()
+	{
+		if(isset($_SESSION['returncheque']))
+               	{
+		 	$d = $_SESSION['returncheque'];
+		 	$model = array();
+
+			if($d->data)
+			$model[]=array_keys($d->data[0]->attributes);//headers: cols name
+			foreach ($d->data as $item) {
+		    	$model[] = $item->attributes;
+			}
+               }
+	   Yii::app()->request->sendFile(date('YmdHis').'.xlsx',
+                           $this->renderPartial('/feesPaymentCheque/returnchequeGeneratePdf', array(
+                              'model'=>$model,
+                              
+                           ), true)
+                       );
+	}
+
 	protected function exporttopdf($title,$filename,$html)
 	{
 		Yii::import('application.extensions.tcpdf.*');

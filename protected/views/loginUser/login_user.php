@@ -46,7 +46,7 @@ $dataProvider->getPagination()->setPageSize($pageSize);
 		array(
 		'type'=>'raw',
 		//'value'=>  'CHtml::image("../diploma_new/images/ok1.png", "No Image")',
-		'value'=>'($data->status == 1) ? CHtml::image("../images/ok1.png") : CHtml::image("../images/delete1.png")',
+		'value'=>'($data->status == 1) ? CHtml::image(Yii::app()->request->baseUrl."/images/ok1.png") : CHtml::image(Yii::app()->request->baseUrl."/images/delete1.png")',
                  ),
 		
 	),

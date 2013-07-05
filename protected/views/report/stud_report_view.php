@@ -27,12 +27,12 @@ echo "&nbsp;";
 $_SESSION['query']=$query;
 $_SESSION['selected_list']=$selected_list;
 
-$pdfimage = CHtml::image('../images/pdf.png', 'No Image', array('height'=>'40','width'=>40));
+$pdfimage = CHtml::image(Yii::app()->request->baseUrl.'/images/pdf.png', 'No Image', array('height'=>'40','width'=>40));
 
 echo CHtml::link($pdfimage,Yii::app()->createUrl('report/SelectedList',array('studentlistexport'=>'studentlistpdf')),array('title'=>'Export to PDF')); 
 
 echo "&nbsp;";
-$excelimage = CHtml::image('../images/excel.png', 'No Image', array('height'=>'40','width'=>40));
+$excelimage = CHtml::image(Yii::app()->request->baseUrl.'/images/excel.png', 'No Image', array('height'=>'40','width'=>40));
 //echo $image;
 echo CHtml::link($excelimage,Yii::app()->createUrl('report/SelectedList',array('studentlistexcelexport'=>'studentlistexcel')),array('title'=>'Export to Excel')); 
 ?>
